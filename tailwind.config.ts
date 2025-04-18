@@ -18,15 +18,19 @@ const config: Config = {
           600: '#2F6FEB',
         },
       },
-    },
-    keyframes: {
-      shimmer: {
-        '100%': {
-          transform: 'translateX(100%)',
+      fontFamily: {
+        pacifico: ['"Pacifico"', 'cursive'],
+      },
+      keyframes: {
+        shimmer: {
+          '100%': {
+            transform: 'translateX(100%)',
+          },
         },
       },
     },
   },
   plugins: [require('@tailwindcss/forms')],
 };
+
 export default config;

@@ -1,13 +1,18 @@
-import { GlobeAltIcon } from '@heroicons/react/24/outline';
-import { lusitana } from '@/app/ui/fonts';
+'use client';
 
-export default function AcmeLogo() {
+import { pacifico } from '@/app/ui/fonts';
+import Image from 'next/image';
+import type { HTMLAttributes } from 'react';
+
+type Props = HTMLAttributes<HTMLDivElement>;
+
+export default function AcmeLogo(props: Props) {
   return (
-    <div
-      className={`${lusitana.className} flex flex-row items-center leading-none text-white`}
-    >
-      <GlobeAltIcon className="h-12 w-12 rotate-[15deg]" />
-      <p className="text-[44px]">Acme</p>
+    <div {...props} className={`flex items-center space-x-3 ${props.className}`}>
+      <Image src="/noona-logo.png" alt="Noona Florist" width={40} height={40} />
+      <h1 className={`${pacifico.className} text-2xl text-white-600`}>
+        Noona Florist
+      </h1>
     </div>
   );
 }

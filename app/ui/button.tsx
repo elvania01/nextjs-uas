@@ -1,17 +1,25 @@
-import clsx from 'clsx';
+// ui/Button.tsx
+import { ReactNode } from "react";
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  children: React.ReactNode;
+interface ButtonProps {
+  children: ReactNode;
+  onClick?: () => void;
+  disabled?: boolean;
+  variant?: "primary" | "secondary";
 }
 
-export function Button({ children, className, ...rest }: ButtonProps) {
+export default function Button({ children, onClick, disabled, variant = "primary" }: ButtonProps) {
+  const baseStyles = "px-6 py-3 rounded-full font-bold transition-all duration-300";
+  const variantStyles =
+    variant === "primary"
+      ? "bg-pink-600 text-white hover:bg-pink-700"
+      : "bg-white text-pink-600 border border-pink-300 hover:bg-pink-50";
+
   return (
     <button
-      {...rest}
-      className={clsx(
-        'flex h-10 items-center rounded-lg bg-blue-500 px-4 text-sm font-medium text-white transition-colors hover:bg-blue-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 active:bg-blue-600 aria-disabled:cursor-not-allowed aria-disabled:opacity-50',
-        className,
-      )}
+      onClick={onClick}
+      disabled={disabled}
+      className={`${baseStyles} ${variantStyles} ${disabled ? "opacity-50 cursor-not-allowed" : ""}`}
     >
       {children}
     </button>
