@@ -39,24 +39,9 @@ export default function Page({ params, categoryProducts }: CategoryPageProps) {
   );
 }
 
-export async function getStaticPaths() {
-  const categories = ["wedding", "birthday", "anniversary", "special"]; // List kategori yang ada
-
-  const paths = categories.map(category => ({
-    params: { category }
+export async function generateStaticParams() {
+  const categories = ["wedding", "birthday", "anniversary", "special"]; // Daftar kategori yang ada
+  return categories.map(category => ({
+    category,
   }));
-
-  return { paths, fallback: false };
-}
-
-export async function getStaticProps({ params }: { params: { category: string } }) {
-  const { category } = params;
-  const categoryProducts = products.filter(p => p.category === category);
-
-  return {
-    props: {
-      params,
-      categoryProducts,
-    }
-  };
-}
+};
