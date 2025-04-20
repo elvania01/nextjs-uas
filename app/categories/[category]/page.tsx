@@ -1,11 +1,11 @@
 import { products } from "@/app/lib/products";
-import Image from "next/image";
+import Image from "next/image"; 
 
-type Props = {
+interface CategoryPageProps {
   params: {
     category: string;
-  };
-};
+  }
+}
 
 const categoryHeadings: Record<string, string> = {
   wedding: "Wedding Bouquets",
@@ -14,7 +14,7 @@ const categoryHeadings: Record<string, string> = {
   special: "Special Events Bouquets",
 };
 
-export default function CategoryPage({ params }: Props) {
+export default function Page({ params }: CategoryPageProps) {
   const category = params.category;
   const filtered = products.filter(p => p.category === category);
   const heading = categoryHeadings[category] || "Bouquets";
