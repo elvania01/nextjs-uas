@@ -4,7 +4,8 @@ import Image from "next/image";
 interface CategoryPageProps {
   params: {
     category: string;
-  }
+  };
+  categoryProducts: typeof products;
 }
 
 const categoryHeadings: Record<string, string> = {
@@ -14,7 +15,7 @@ const categoryHeadings: Record<string, string> = {
   special: "Special Events Bouquets",
 };
 
-export default function Page({ params }: CategoryPageProps) {
+export default function Page({ params, categoryProducts }: CategoryPageProps) {
   const category = params.category;
   const filtered = products.filter(p => p.category === category);
   const heading = categoryHeadings[category] || "Bouquets";
@@ -23,7 +24,7 @@ export default function Page({ params }: CategoryPageProps) {
     <div className="max-w-6xl mx-auto px-4 py-12">
       <h1 className="text-3xl font-bold text-pink-600 mb-6">{heading}</h1>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
-        {filtered.map(products => (
+        {categoryProducts.map(products => (
           <div key={products.id} className="bg-white rounded-xl shadow-md overflow-hidden">
             <Image src={products.image} alt={products.name} width={400} height={250} className="w-full h-60 object-cover" />
             <div className="p-4">
@@ -36,4 +37,26 @@ export default function Page({ params }: CategoryPageProps) {
       </div>
     </div>
   );
+}
+
+export async function getStaticPaths() {
+  const categories = ["wedding", "birthday", "anniversary", "special"]; // List kategori yang ada
+
+  const paths = categories.map(category => ({
+    params: { category }
+  }));
+
+  return { paths, fallback: false };
+}
+
+export async function getStaticProps({ params }: { params: { category: string } }) {
+  const { category } = params;
+  const categoryProducts = products.filter(p => p.category === category);
+
+  return {
+    props: {
+      params,
+      categoryProducts,
+    }
+  };
 }
