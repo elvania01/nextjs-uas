@@ -26,7 +26,7 @@ export default function TopNav() {
         </div>
 
         {/* Logo & Brand Name */}
-        <div className="flex items-center space-x-2">
+        <div className="flex items-center font-pacifico space-x-2">
           <Image
             src="/noona-logo.png" 
             alt="Noona Florist Logo"
