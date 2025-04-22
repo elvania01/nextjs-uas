@@ -32,9 +32,9 @@ export default function AboutUsPage() {
                   <img
                     src={img}
                     alt={`Product ${idx}`}
-                    className="rounded-2xl mx-auto mb-2 shadow-md"
+                    className="rounded-2xl mx-auto mb-2 shadow-md w-60 h-60 object-cover"
                   />
-                  <button className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-600">
+                  <button className="bg-blue-500 text-white px-4 py-1 rounded hover:bg-blue-60">
                     {btn}
                   </button>
                 </div>
@@ -55,6 +55,18 @@ export default function AboutUsPage() {
                 <span>📧</span>
                 <span>noonaflorist@gmail.com</span>
               </div>
+              <div className="flex items-center gap-2">
+                <span>📱</span>
+                <span>+62 812-3456-7890</span>
+              </div>
+              <div className="mt-4 pt-4 border-t border-pink-400">
+                <h4 className="flex items font-semibold">Tim Pengelola:</h4>
+                <div className="flex flex-col gap-1">                
+                <span>Elvania +62 812-3456-7890</span> 
+                <span>Vinsensius +62 812-3456-7890</span>
+                <span>Aditya +62 812-3456-7890</span>
+                </div>
+                </div>
             </div>
           </div>
         </div>
