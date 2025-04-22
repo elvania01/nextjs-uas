@@ -8,6 +8,7 @@ importers:
 
   .:
     dependencies:
+      "next": ">=15.2.3"
       '@heroicons/react':
         specifier: ^2.2.0
         version: 2.2.0(react@19.0.0)
@@ -69,6 +70,7 @@ importers:
         specifier: ^3.24.1
         version: 3.24.1
     devDependencies:
+      "next": ">=15.2.3"
       '@types/bcrypt':
         specifier: ^5.0.2
         version: 5.0.2
