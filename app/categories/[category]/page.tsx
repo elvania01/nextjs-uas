@@ -1,7 +1,7 @@
 import { products } from "@/app/lib/products";
 import Image from "next/image";
 
-interface CategoryPageProps {
+interface PageProps {
   params: {
     category: string;
   };
@@ -14,7 +14,7 @@ const categoryHeadings: Record<string, string> = {
   special: "Special Events Bouquets",
 };
 
-export default function Page({ params }: CategoryPageProps) {
+export default function Page({ params }: PageProps) {
   const category = params.category;
   const filteredProducts = products.filter(p => p.category === category);
   const heading = categoryHeadings[category] || "Bouquets";
