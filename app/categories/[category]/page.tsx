@@ -1,11 +1,10 @@
 import { products } from "@/app/lib/products";
 import Image from "next/image";
 
-interface PageProps {
-  params: {
-    category: string;
-  };
-}
+// Simple type definition that matches Next.js expectations
+type PageParams = {
+  category: string;
+};
 
 const categoryHeadings: Record<string, string> = {
   wedding: "Wedding Bouquets",
@@ -14,7 +13,7 @@ const categoryHeadings: Record<string, string> = {
   special: "Special Events Bouquets",
 };
 
-export default function Page({ params }: PageProps) {
+export default function Page({ params }: { params: PageParams }) {
   const category = params.category;
   const filteredProducts = products.filter(p => p.category === category);
   const heading = categoryHeadings[category] || "Bouquets";
@@ -33,8 +32,9 @@ export default function Page({ params }: PageProps) {
               src={product.image} 
               alt={product.name} 
               width={400} 
-              height={250} 
-              className="w-full h-60 object-cover" 
+              height={250}
+              className="w-full h-60 object-cover"
+              priority={false} // Add this to avoid Image optimization warnings
             />
             <div className="p-4">
               <h2 className="text-xl font-semibold text-gray-800">{product.name}</h2>
@@ -48,9 +48,8 @@ export default function Page({ params }: PageProps) {
   );
 }
 
-export async function generateStaticParams() {
-  const categories = ["wedding", "birthday", "anniversary", "special"];
-  return categories.map(category => ({
+export async function generateStaticParams(): Promise<Array<{ category: string }>> {
+  return ["wedding", "birthday", "anniversary", "special"].map(category => ({
     category,
   }));
 }
