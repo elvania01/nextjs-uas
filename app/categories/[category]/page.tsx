@@ -1,11 +1,10 @@
 import { products } from "@/app/lib/products";
-import Image from "next/image"; 
+import Image from "next/image";
 
 interface PageProps {
   params: {
     category: string;
   };
-  // Remove categoryProducts from here - page components only get params/searchParams
 }
 
 const categoryHeadings: Record<string, string> = {
