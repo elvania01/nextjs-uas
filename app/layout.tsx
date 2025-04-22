@@ -13,19 +13,19 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   const hideNavbarOn = [
     '/auth/login',
     '/auth/register',
-    '/auth/reset-password',
+    '/auth/reset',
   ];
 
   const hiddenRoutes = [
     '/auth/login',
     '/auth/register',
-    '/auth/reset-password',
+    '/auth/reset',
     '/app/home',
   ];
 
-
-  const shouldHideFooter = hiddenRoutes.includes(pathname);
   const shouldHideNavbar = hideNavbarOn.includes(pathname);
+  const shouldHideFooter = hiddenRoutes.includes(pathname);
+
 
   return (
     <html lang="en">
