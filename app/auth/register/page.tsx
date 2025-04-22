@@ -3,6 +3,8 @@
 import { useState } from "react";
 import { EyeIcon, EyeSlashIcon } from "@heroicons/react/24/outline";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { IoArrowBack } from "react-icons/io5"; 
 
 export default function RegisterPage() {
   const [formData, setFormData] = useState({
@@ -39,7 +41,7 @@ export default function RegisterPage() {
 
       if (res.ok) {
         alert("Registration successful!");
-        router.push("/auth/login"); 
+        router.push("/auth/login");
       } else {
         const data = await res.json();
         setError(data.message || "Registration failed!");
@@ -51,8 +53,29 @@ export default function RegisterPage() {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-pink-400 to-purple-500">
-      <div className="bg-white shadow-lg rounded-xl p-8 w-96">
-        <h2 className="text-center text-lg font-semibold mt-4 mb-2">
+      {/* Tombol Kembali */}
+      <div className="absolute top-5 left-5">
+        <button
+          onClick={() => router.back()}
+          className="p-2 bg-white rounded-full shadow-md text-gray-700 hover:bg-gray-200"
+        >
+          <IoArrowBack className="h-6 w-6" />
+        </button>
+      </div>
+
+      <div className="text-center absolute top-10">
+        <Image
+          src="/noona-logo.png"
+          alt="Noona Logo"
+          width={50}
+          height={50}
+          className="mx-auto mb-2"
+        />
+        <div className="text-white font-pacifico font-bold text-2x">Noona Florist</div>
+      </div>
+
+      <div className="bg-white shadow-lg rounded-xl p-3 w-80 mt-40">
+        <h2 className="text-center text-lg font-semibold mt-4 mb-4">
           Registration
         </h2>
         {error && <p className="text-red-500 text-sm text-center">{error}</p>}

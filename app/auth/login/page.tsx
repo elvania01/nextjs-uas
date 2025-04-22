@@ -5,7 +5,8 @@ import "@/app/globals.css";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { FaSeedling } from "react-icons/fa"; 
+import { FaSeedling } from "react-icons/fa";
+import { IoArrowBack } from "react-icons/io5"; 
 
 const LoginPage = () => {
   const router = useRouter();
@@ -17,13 +18,13 @@ const LoginPage = () => {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (email === "1@gmail.com" && password === "12345") {
+    if (email === "admin123" && password === "12345") {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("username", "Owner");
       localStorage.setItem("justLoggedIn", "true");
       localStorage.setItem("user", JSON.stringify({ email, role: "Owner" }));
       router.push("/");
-    } else if (email === "2@gmail.com" && password === "12345") {
+    } else if (email === "user123" && password === "12345") {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("username", "Customer");
       localStorage.setItem("justLoggedIn", "true");
@@ -36,15 +37,25 @@ const LoginPage = () => {
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-pink-400 to-purple-500">
-      <div className="text-center absolute top-20">
-      <Image
-        src="/noona-logo.png"
-        alt="Noona Logo"
-        width={50}
-        height={50}
-        className="mx-auto mb-2"
-      />
-        <h1 className="text-white text-2xl font-bold tracking-wide">WELCOME, OUR CUSTOMER</h1>
+      {/* Tombol Kembali */}
+      <div className="absolute top-5 left-5">
+        <button
+          onClick={() => router.back()}
+          className="p-2 bg-white rounded-full shadow-md text-gray-700 hover:bg-gray-200"
+        >
+          <IoArrowBack className="h-6 w-6" />
+        </button>
+      </div>
+
+      <div className="text-center font-pacifico absolute top-20">
+        <Image
+          src="/noona-logo.png"
+          alt="Noona Logo"
+          width={50}
+          height={50}
+          className="mx-auto mb-2"
+        />
+        <h1 className="text-white text-2x font-bold tracking-wide">WELCOME, OUR CUSTOMER</h1>
       </div>
 
       <div className="bg-white shadow-lg rounded-xl p-6 w-96 mt-40">
@@ -101,7 +112,7 @@ const LoginPage = () => {
 
           <button
             type="button"
-            onClick={() => router.push("/auth/Register")}
+            onClick={() => router.push("/auth/register")}
             className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
           >
             Create new account

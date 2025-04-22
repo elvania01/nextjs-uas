@@ -13,7 +13,7 @@ export default function AboutUsPage() {
               Beauty in Every Petal, Joy in Every Moment!
             </p>
             <nav className="space-y-4">
-              {["Home Page", "Profile", "Shop", "Categories", "Testimonies"].map(
+              {[].map(
                 (item) => (
                   <p key={item} className="text-lg hover:underline cursor-pointer">
                     {item}

@@ -1,6 +1,8 @@
 'use client';
 
+import Image from 'next/image';
 import React, { useState } from 'react';
+import { IoArrowBack } from 'react-icons/io5'; 
 
 export default function ResetPassword() {
   const [email, setEmail] = useState('');
@@ -39,9 +41,26 @@ export default function ResetPassword() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-pink-500 to-purple-500 flex flex-col items-center pt-6">
-      <div className="mb-8">
-        <div className="text-white font-bold text-2xl">Noona Florist</div>
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-pink-400 to-purple-500">
+      {/* Tombol Kembali */}
+      <div className="absolute top-5 left-5">
+        <button
+          onClick={() => window.history.back()}
+          className="p-2 bg-white rounded-full shadow-md text-gray-700 hover:bg-gray-200"
+        >
+          <IoArrowBack className="h-6 w-6" />
+        </button>
+      </div>
+
+      <div className="text-center absolute top-20">
+        <Image
+          src="/noona-logo.png"
+          alt="Noona Logo"
+          width={50}
+          height={50}
+          className="mx-auto mb-2"
+        />
+        <div className="text-white font-pacifico font-bold text-2xl">Noona Florist</div>
       </div>
       <div className="bg-white p-6 rounded-2xl shadow-md w-80">
         <h2 className="text-xl font-semibold text-center mb-4">Reset Password</h2>
