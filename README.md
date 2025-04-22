@@ -12,7 +12,7 @@ Noona Florist adalah toko bunga online yang membantu kamu menemukan buket bunga 
 https://github.com/elvania01/nextjs-uas
 
 ## Link Deploy
-](https://nextjs-uas-lac.vercel.app/)
+https://nextjs-uas-lac.vercel.app/
 
 ## Pembagian Tugas Anggota
 - Aditya: Implementasi login, registrasi, reset password, dan footer
