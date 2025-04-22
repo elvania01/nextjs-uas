@@ -54,4 +54,4 @@ export async function generateStaticParams() {
   return categories.map(category => ({
     category,
   }));
-};
+}
