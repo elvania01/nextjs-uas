@@ -110,7 +110,7 @@ export default function Navbar() {
           <Link href="/about-us" className="hover:bg-pink-600 px-2 py-1 rounded-md">About Us</Link>
           <Link href="/" className="hover:bg-pink-600 px-2 py-1 rounded-md">Home</Link>
           <Link href="/testimoni" className="hover:bg-pink-600 px-2 py-1 rounded-md">Testimoni</Link>
-
+          <Link href="/transaction" className="hover:bg-pink-600 px-2 py-1 rounded-md">Transaction</Link>
           {/* Category Dropdown */}
           <div className="relative" ref={categoryRef}>
             <button
@@ -130,6 +130,8 @@ export default function Navbar() {
             )}
           </div>
         </div>
+
+
 
         {/* Right Navigation */}
         <div className="flex items-center space-x-4">
