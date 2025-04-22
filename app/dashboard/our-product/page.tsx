@@ -22,6 +22,7 @@ type Product = {
   image: string;
   description: string;
   category: string;
+  stock: number;
 };
 
 export default function OurProductPage() {
@@ -38,6 +39,7 @@ export default function OurProductPage() {
     price: 0,
     description: '',
     category: '',
+    stock: 0,
   });
   const [buyingQuantities, setBuyingQuantities] = useState<Record<string, number>>({});
 
@@ -64,6 +66,7 @@ export default function OurProductPage() {
       image: '/images/placeholder-flower.jpg',
       description: 'Beautiful flower',
       category: 'default',
+      stock: 15,
     };
     setProducts((prev) => [newProduct, ...prev]);
     setToast('New product added!');
@@ -77,12 +80,13 @@ export default function OurProductPage() {
       price: product.price,
       description: product.description,
       category: product.category,
+      stock: product.stock,
     });
     setEditImage(null);
   };
 
   const saveEdit = (id: string) => {
-    if (!editData.name || !editData.description || !editData.category) {
+    if (!editData.name || !editData.description.trim() || !editData.category.trim()) {
       alert('Please fill in all fields');
       return;
     }
@@ -188,9 +192,12 @@ export default function OurProductPage() {
               />
               <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
               <p className="text-pink-600 font-bold text-lg">${product.price}</p>
+              <p className="text-gray-500 text-sm">Stock: {product.stock}</p>
             </div>
 
             {!isOwner && (
+                <p className="text-gray-500 text-sm">Stock: {product.stock}</p>
+                >
               <div className="mt-3 flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Quantity</span>
@@ -206,14 +213,26 @@ export default function OurProductPage() {
                     </button>
                     <span>{buyingQuantities[product.id] ?? 1}</span>
                     <button
-                      onClick={() => setBuyingQuantities((prev) => ({
+                  onClick={() => setBuyingQuantities((prev) => ({
+                    ...prev,
+                    [product.id]: (prev[product.id] ?? 1) + 1,
+                  }))}
+                  className="p-1 bg-gray-200 rounded"
+                >
+                  <button
+                    onClick={() => setBuyingQuantities((prev) => {
+                      const currentQty = prev[product.id] ?? 1;
+                      return {
                         ...prev,
-                        [product.id]: (prev[product.id] ?? 1) + 1,
-                      }))}
-                      className="p-1 bg-gray-200 rounded"
-                    >
-                      <PlusIcon className="h-4 w-4" />
-                    </button>
+                        [product.id]: Math.min(currentQty + 1, product.stock),
+                      };
+                    })}
+                    className="p-1 bg-gray-200 rounded"
+                  >
+                    <PlusIcon className="h-4 w-4" />
+                  </button>
+                  <PlusIcon className="h-4 w-4" />
+                </button>
                   </div>
                 </div>
                 <button
@@ -261,6 +280,16 @@ export default function OurProductPage() {
                   value={editData.description}
                   onChange={(e) => setEditData({ ...editData, description: e.target.value })}
                   className="w-full mb-2 p-2 border rounded"
+                />
+                <input
+                  type="number"
+                  placeholder="Stock"
+                  value={editData.stock ?? 0}
+                  onChange={(e) =>
+                    setEditData({ ...editData, stock: Math.max(0, parseInt(e.target.value) || 0 )})
+                  }
+                  min={0}
+                  className="w-full mb-4 p-2 border rounded"
                 />
                 <input
                   type="text"
