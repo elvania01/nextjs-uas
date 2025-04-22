@@ -5,6 +5,7 @@ export type Product = {
   price: number;
   description: string;
   category: string;
+  stock: 15,
 };
 
 export const products: Product[] = [
@@ -15,6 +16,7 @@ export const products: Product[] = [
     price: 500,
     description: "Elegant white roses perfect for weddings.",
     category: "wedding",
+    stock: 15,
   },
   {
     id: "w2",
@@ -23,6 +25,7 @@ export const products: Product[] = [
     price: 650,
     description: "A pastel-themed bouquet for your dreamy wedding.",
     category: "wedding",
+    stock: 15,
   },
 
   {
@@ -32,6 +35,7 @@ export const products: Product[] = [
     price: 400,
     description: "Celebrate birthdays with vibrant flowers.",
     category: "birthday",
+    stock: 15,
   },
   {
     id: "b2",
@@ -40,6 +44,7 @@ export const products: Product[] = [
     price: 450,
     description: "Bright sunflowers to light up the day.",
     category: "birthday",
+    stock: 15,
   },
 
   {
@@ -49,6 +54,7 @@ export const products: Product[] = [
     price: 700,
     description: "Red roses to celebrate timeless love.",
     category: "anniversary",
+    stock: 15,
   },
   {
     id: "a2",
@@ -57,6 +63,7 @@ export const products: Product[] = [
     price: 750,
     description: "Orchids to show your lasting affection.",
     category: "anniversary",
+    stock: 15,
   },
 
   {
@@ -66,6 +73,7 @@ export const products: Product[] = [
     price: 500,
     description: "Celebrate milestones with floral pride.",
     category: "special",
+    stock: 15,
   },
   {
     id: "s2",
@@ -74,5 +82,6 @@ export const products: Product[] = [
     price: 550,
     description: "Soft pastels for joyful beginnings.",
     category: "special",
+    stock: 15,
   },
 ];
