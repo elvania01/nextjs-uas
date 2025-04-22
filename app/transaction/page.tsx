@@ -18,23 +18,32 @@ type Transaction = {
   status: 'completed' | 'pending' | 'cancelled';
 };
 
-    const useUser = () => {
-    const [user, setUser] = useState<{ name: string; role: string } | null>({
-      name: "Owner",
-      role: "Owner",
-    });
-    const [isChecking, setIsChecking] = useState(false);
+function useUser() {
+  const [user, setUser] = useState<{ name: string; role: string } | null>(null);
+  const [isChecking, setIsChecking] = useState(true);
 
-    useEffect(() => {
-        setIsChecking(false);
-      }, []);
-    
-      return { user, isChecking };
-    };
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
+    const userData = localStorage.getItem("user");
+
+    if (isLoggedIn && userData) {
+      try {
+        const parsedUser = JSON.parse(userData);
+        setUser(parsedUser);
+      } catch (error) {
+        console.error("Gagal parsing user dari localStorage", error);
+        setUser(null);
+      }
+    }
+    setIsChecking(false);
+  }, []);
+
+  return { user, isChecking };
+}
 
 export default function TransactionPage() {
-    const router = useRouter();
-    const { user, isChecking } = useUser();
+  const router = useRouter();
+  const { user, isChecking } = useUser();
 
   const [transactions, setTransactions] = useState<Transaction[]>([
     {
@@ -70,22 +79,19 @@ export default function TransactionPage() {
   const [currentTransaction, setCurrentTransaction] = useState<Transaction | null>(null);
 
   useEffect(() => {
-      if (!user || user.role !== 'Owner') {
-        router.push('/login');
-      }
-    }, [user, router]);
-
-    if (!user || user.role !== 'Owner') {
-        return null;
+    if (!isChecking && (!user || user.role !== 'Owner')) {
+      router.push("/login");
     }
+  }, [isChecking, user, router]);
 
-    const filteredTransactions = transactions.filter(
-        (transaction) =>
-          transaction.productName
-            .toLowerCase()
-            .includes(searchTerm.toLowerCase()) ||
-          transaction.buyerName.toLowerCase().includes(searchTerm.toLowerCase())
-      );
+  if (isChecking) return <p className="text-center mt-10">Sedang mengecek role pengguna...</p>;
+  if (!user || user.role !== 'Owner') return null;
+
+  const filteredTransactions = transactions.filter(
+    (transaction) =>
+      transaction.productName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      transaction.buyerName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const handleDelete = (id: string) => {
     if (confirm('Apakah Anda yakin ingin menghapus transaksi ini?')) {
@@ -102,13 +108,14 @@ export default function TransactionPage() {
     e.preventDefault();
     if (currentTransaction) {
       if (currentTransaction.id) {
-        setTransactions(transactions.map(t => 
+        setTransactions(transactions.map(t =>
           t.id === currentTransaction.id ? currentTransaction : t
         ));
       } else {
         setTransactions([...transactions, {
           ...currentTransaction,
-          id: Date.now().toString()
+          id: Date.now().toString(),
+          date: new Date().toISOString().split('T')[0],
         }]);
       }
       setIsModalOpen(false);
@@ -154,6 +161,7 @@ export default function TransactionPage() {
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Aksi</th>
             </tr>
           </thead>
+          
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredTransactions.map((transaction) => (
               <tr key={transaction.id}>
@@ -197,14 +205,14 @@ export default function TransactionPage() {
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
-                    transaction.status === 'completed' 
-                      ? 'bg-green-100 text-green-800' 
-                      : transaction.status === 'pending' 
-                        ? 'bg-yellow-100 text-yellow-800' 
+                    transaction.status === 'completed'
+                      ? 'bg-green-100 text-green-800'
+                      : transaction.status === 'pending'
+                        ? 'bg-yellow-100 text-yellow-800'
                         : 'bg-red-100 text-red-800'
                   }`}>
-                    {transaction.status === 'completed' ? 'Selesai' : 
-                     transaction.status === 'pending' ? 'Menunggu' : 'Dibatalkan'}
+                    {transaction.status === 'completed' ? 'Selesai' :
+                      transaction.status === 'pending' ? 'Menunggu' : 'Dibatalkan'}
                   </span>
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
@@ -227,7 +235,6 @@ export default function TransactionPage() {
         </table>
       </div>
 
-      {/* Modal Form */}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg shadow-xl w-full max-w-md">
@@ -235,9 +242,12 @@ export default function TransactionPage() {
               <h2 className="text-xl font-bold mb-4">
                 {currentTransaction ? 'Edit Transaksi' : 'Tambah Transaksi Baru'}
               </h2>
-              <form onSubmit={handleSubmit}>
-                <div className="mb-4">
-                  <label className="block text-sm font-medium text-gray-700 mb-1">Nama Produk</label>
+              <form 
+                onSubmit={handleSubmit}
+                className="grid grid-cols-1 md:grid-cols-2 gap-4"
+                >
+              <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Nama Produk</label>
                   <input
                     type="text"
                     className="w-full px-3 py-2 border rounded-lg"
@@ -249,8 +259,8 @@ export default function TransactionPage() {
                     required
                   />
                 </div>
-                
-                <div className="mb-4">
+
+                <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Harga</label>
                   <input
                     type="number"
@@ -263,7 +273,7 @@ export default function TransactionPage() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Jumlah</label>
                   <input
@@ -278,7 +288,7 @@ export default function TransactionPage() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Nama Pembeli</label>
                   <input
@@ -292,7 +302,7 @@ export default function TransactionPage() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Email Pembeli</label>
                   <input
@@ -306,7 +316,7 @@ export default function TransactionPage() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Telepon Pembeli</label>
                   <input
@@ -320,7 +330,7 @@ export default function TransactionPage() {
                     required
                   />
                 </div>
-                
+
                 <div className="mb-4">
                   <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                   <select
@@ -337,7 +347,7 @@ export default function TransactionPage() {
                     <option value="cancelled">Dibatalkan</option>
                   </select>
                 </div>
-                
+
                 <div className="flex justify-end gap-3 mt-6">
                   <button
                     type="button"

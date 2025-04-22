@@ -149,7 +149,7 @@ export default function OurProductPage() {
                 <button
                   onClick={() => {
                     setShowLoginAlert(false);
-                    window.location.href = '/login';
+                    window.location.href = '/auth/login';
                   }}
                   className="px-4 py-2 bg-pink-500 text-white rounded"
                 >
@@ -196,43 +196,36 @@ export default function OurProductPage() {
             </div>
 
             {!isOwner && (
-                <p className="text-gray-500 text-sm">Stock: {product.stock}</p>
-                >
               <div className="mt-3 flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Quantity</span>
                   <div className="flex items-center gap-2">
                     <button
-                      onClick={() => setBuyingQuantities((prev) => ({
-                        ...prev,
-                        [product.id]: Math.max((prev[product.id] ?? 1) - 1, 1),
-                      }))}
+                      onClick={() =>
+                        setBuyingQuantities((prev) => ({
+                          ...prev,
+                          [product.id]: Math.max((prev[product.id] ?? 1) - 1, 1),
+                        }))
+                      }
                       className="p-1 bg-gray-200 rounded"
                     >
                       <MinusIcon className="h-4 w-4" />
                     </button>
                     <span>{buyingQuantities[product.id] ?? 1}</span>
                     <button
-                  onClick={() => setBuyingQuantities((prev) => ({
-                    ...prev,
-                    [product.id]: (prev[product.id] ?? 1) + 1,
-                  }))}
-                  className="p-1 bg-gray-200 rounded"
-                >
-                  <button
-                    onClick={() => setBuyingQuantities((prev) => {
-                      const currentQty = prev[product.id] ?? 1;
-                      return {
-                        ...prev,
-                        [product.id]: Math.min(currentQty + 1, product.stock),
-                      };
-                    })}
-                    className="p-1 bg-gray-200 rounded"
-                  >
-                    <PlusIcon className="h-4 w-4" />
-                  </button>
-                  <PlusIcon className="h-4 w-4" />
-                </button>
+                      onClick={() =>
+                        setBuyingQuantities((prev) => {
+                          const currentQty = prev[product.id] ?? 1;
+                          return {
+                            ...prev,
+                            [product.id]: Math.min(currentQty + 1, product.stock),
+                          };
+                        })
+                      }
+                      className="p-1 bg-gray-200 rounded"
+                    >
+                      <PlusIcon className="h-4 w-4" />
+                    </button>
                   </div>
                 </div>
                 <button

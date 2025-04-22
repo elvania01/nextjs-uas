@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { GiftIcon, ShoppingBagIcon, SparklesIcon } from '@heroicons/react/24/outline';
 import Image from 'next/image';
 import TopNav from '@/components/topnav';
+
 import CategorySection from '@/app/categories/wedding/page';
 
 export default function Page() {
@@ -81,6 +82,9 @@ export default function Page() {
 
       {/* Footer Pattern */}
       <div className="h-16 bg-[url('/floral-pattern.png')] bg-repeat-x bg-cover mt-6 border-t-4 border-pink-300" />
+
+      {/* Footer Component */}
+
     </div>
   );
 }
