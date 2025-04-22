@@ -1,7 +1,7 @@
 **Kelas_Kelompok: B_8**
 
 **Anggota Kelompok:**
-- Aditya Sendana (231712)
+- Aditya Sendana (231712618)
 - Elvania Pranisti (231712660)
 - Vinsensius Dipo Paulus (231712686)
 
