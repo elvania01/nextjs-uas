@@ -5,32 +5,33 @@ import Link from "next/link";
 
 const Footer = () => {
   return (
-    <footer className="bg-pink-600 text-white py-6">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          {/* Logo or Brand Name */}
-          <div className="flex items-center space-x-2 mb-4 md:mb-0">
+    <footer className="bg-pink-600 text-white py-10">
+      <div className="max-w-7xl mx-auto px-4 flex flex-col items-center space-y-6">
+        {/* Logo and Brand */}
+        <div className="flex items-center space-x-3">
           <Image
-            src="/noona-logo.png" 
+            src="/noona-logo.png"
             alt="Noona Florist Logo"
-            width={60}
-            height={60}
-            />
-          <div className="text-xl font-bold">Noona Florist</div>
-        
-          {/* Navigation Links */}
-          <div className="flex space-x-6">
-            <Link href="/about-us" className="hover:text-gray-300 transition-colors">About Us</Link>
-            <Link href="/contact" className="hover:text-gray-300 transition-colors">Contact</Link>
-            <Link href="/privacy-policy" className="hover:text-gray-300 transition-colors">Privacy Policy</Link>
-            <Link href="/terms-of-service" className="hover:text-gray-300 transition-colors">Terms of Service</Link>
-          </div>
-        </div>
+            width={50}
+            height={50}
+            className="rounded-full"
+          />
+          <span className="text-2xl font-semibold tracking-wide">Noona Florist</span>
         </div>
 
-        <div className="mt-6 text-center">
-          <p className="text-sm">&copy; {new Date().getFullYear()} Noona Florist. All rights reserved.</p>
+        {/* Navigation Links */}
+        <div className="flex flex-wrap justify-center gap-6 text-sm md:text-base">
+          <Link href="/about-us" className="hover:text-gray-200 transition-colors duration-200">About Us</Link>
+          <Link href="https://www.instagram.com" className="hover:text-gray-200 transition-colors duration-200">Instagram</Link>
+          <Link href="/privacy-policy" className="hover:text-gray-200 transition-colors duration-200">Privacy Policy</Link>
+          <Link href="/terms-of-service" className="hover:text-gray-200 transition-colors duration-200">Terms of Service</Link>
         </div>
+
+        {/* Divider */}
+        <div className="w-full border-t border-pink-300" />
+
+        {/* Copyright */}
+        <p className="text-xs text-center text-pink-100">&copy; {new Date().getFullYear()} Noona Florist. All rights reserved.</p>
       </div>
     </footer>
   );
