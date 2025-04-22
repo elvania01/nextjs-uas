@@ -53,8 +53,10 @@ export default function Page() {
                   </span>
                 ) : (
                   <>
-                    <ShoppingBagIcon className="flex items-center h-6 w-6 mr-2" />
-                    SHOP NOW
+                    <span className="flex items-center justify-center gap-2">
+                      <ShoppingBagIcon className="h-6 w-6" />
+                      <span>Product</span>
+                    </span>
                   </>
                 )}
               </button>
