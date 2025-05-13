@@ -65,15 +65,15 @@ export default function Page() {
 
             {/* Image */}
            <div className="relative w-full h-72 md:h-96">
-            <Image
-              src="/flower-gift-wrap-mockup.jpg"
-              alt="Floral Gift Wrap"
-              fill
-              className="object-cover rounded-r-xl"
-              priority
-            />
-            <div className="absolute bottom-0 left-0 right-0 h-14 bg-[url('/customers/ribbon-pattern.png')] bg-repeat-x" />
-          </div>
+          <Image
+            src="/flower-gift-wrap-mockup.jpg"
+            alt="Floral Gift Wrap"
+            fill
+            className="object-cover rounded-r-xl"
+            priority
+          />
+          <div className="absolute bottom-0 left-0 right-0 h-14 bg-[url('/customers/ribbon-pattern.png')] bg-repeat-x" />
+        </div>
           </div>
         </div>
 
