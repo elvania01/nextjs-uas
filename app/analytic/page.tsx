@@ -11,7 +11,6 @@ import {
 } from 'lucide-react';
 import { JSX } from 'react/jsx-runtime';
 
-// Komponen Bar Chart Sederhana
 type BarChartProps = {
   data: number[];
   labels: string[];
@@ -42,7 +41,6 @@ function SimpleBarChart({ data, labels, colors }: BarChartProps) {
   );
 }
 
-// Komponen Kartu Statistik
 type StatCardProps = {
   icon: JSX.Element;
   label: string;
