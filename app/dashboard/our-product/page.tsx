@@ -114,8 +114,13 @@ export default function OurProductPage() {
       setShowLoginAlert(true);
       return;
     }
+
     const quantity = buyingQuantities[product.id] ?? 1;
-    if (isNaN(quantity) || quantity < 1) return;
+    if (isNaN(quantity) || quantity < 1 || quantity > product.stock) {
+      alert('Invalid quantity');
+      return;
+    }
+
     addToCart({ ...product, quantity });
     setToast(`${product.name} added to cart`);
     setTimeout(() => setToast(''), 3000);
@@ -192,10 +197,12 @@ export default function OurProductPage() {
               />
               <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
               <p className="text-pink-600 font-bold text-lg">${product.price}</p>
-              <p className="text-gray-500 text-sm">Stock: {product.stock}</p>
+              <p className="text-gray-500 text-sm">
+                {product.stock > 0 ? `Stock: ${product.stock}` : <span className="text-red-500 font-semibold">Out of Stock</span>}
+              </p>
             </div>
 
-            {!isOwner && (
+            {!isOwner && product.stock > 0 && (
               <div className="mt-3 flex flex-col gap-2">
                 <div className="flex items-center justify-between">
                   <span className="text-sm text-gray-600">Quantity</span>
