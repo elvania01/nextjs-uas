@@ -20,7 +20,7 @@ const CustomerProfilePage = () => {
 
   return (
     <div className="p-4">
-      <h1 className="font-pacifico text-2xl font-bold mb-4">Customer Profile</h1>
+      <h1 className="min-h-screen bg-[#fff8f9] text-white px-6 py-10 flex items-center justify-center">Customer Profile</h1>
       <div className="bg-pink-200 rounded-xl shadow-md p-6 max-w-sm mx-auto text-center">
         <img
           src="/owner3.jpg"
