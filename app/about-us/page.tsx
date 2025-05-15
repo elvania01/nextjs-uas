@@ -60,7 +60,7 @@ export default function AboutUsPage() {
                 <span>+62 812-3456-7890</span>
               </div>
               <div className="mt-4 pt-4 border-t border-pink-400">
-                <h4 className="flex items font-semibold">Tim Pengelola:</h4>
+                <h4 className="flex items font-semibold">Timas Pengelola:</h4>
                 <div className="flex flex-col gap-1">                
                 <span>Elvania +62 812-3456-7890</span> 
                 <span>Vinsensius +62 812-3456-7890</span>
