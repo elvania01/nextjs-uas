@@ -99,7 +99,7 @@ const OwnerProfilePage = () => {
   if (isChecking) return <div className="p-4">Loading...</div>;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-300 to-purple-500 p-6">
+    <div className="min-h-screen bg-[#fff8f9] p-6">
       <div className="max-w-6xl mx-auto">
         <h1 className="font-pacifico text-white text-3xl font-bold text-center mb-4">Florist Team</h1>
 
