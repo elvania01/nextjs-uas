@@ -1,6 +1,6 @@
 export default function TrackingOrderPage() {
     return (
-      <div className="min-h-screen bg-pink-50 text-gray-800 p-6">
+      <div className="min-h-screen bg-[#fff8f9] text-gray-800 p-6">
         <h1 className="font-pacifico text-3xl font-bold mb-4 text-pink-600">Tracking Order</h1>
         <p className="mb-6">Masukkan nomor pesanan Anda untuk melacak status pengiriman.</p>
         <div className="max-w-md space-y-4">
