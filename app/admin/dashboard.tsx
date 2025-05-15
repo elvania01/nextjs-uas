@@ -1,4 +1,4 @@
-
+'use client';
 
 import { useState, useEffect } from 'react';
 import { FiEdit, FiTrash2, FiSearch } from 'react-icons/fi';
