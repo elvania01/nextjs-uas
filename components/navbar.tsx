@@ -103,16 +103,35 @@ export default function Navbar() {
     }
   };
 
-  return (
+    return (
     <nav className="bg-pink-500 text-white relative">
-      <div className="font-pacifico max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div className="font-pacifico max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
         {/* Left Navigation */}
-        <div className="flex items-center space-x-6 relative">
-          {role === "Owner" && (
-            <Link href="/analytic" className="hover:bg-pink-600 px-2 py-1 rounded-md">
+        <div className="flex items-center space-x-4">
+          {/* Dashboard with Dropdown */}
+          <div className="relative group">
+            <Link
+              href="/analytic"
+              className="hover:bg-pink-600 px-2 py-1 rounded-md cursor-pointer inline-block"
+            >
               Dashboard
             </Link>
-          )}
+            <div className="absolute z-10 hidden group-hover:block bg-white shadow-md rounded-md w-40 mt-1">
+              <Link
+                href="/dashboard/product"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Produk
+              </Link>
+              <Link
+                href="/dashboard/transaction"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
+                Transaksi
+              </Link>
+            </div>
+          </div>
+
           <Link href="/" className="hover:bg-pink-600 px-2 py-1 rounded-md">Home</Link>
           <Link href="/about-us" className="hover:bg-pink-600 px-2 py-1 rounded-md">About Us</Link>
           <Link href="/testimoni" className="hover:bg-pink-600 px-2 py-1 rounded-md">Testimoni</Link>
@@ -120,7 +139,8 @@ export default function Navbar() {
             <Link href="/transaction" className="hover:bg-pink-600 px-2 py-1 rounded-md">
               Transaction
             </Link>
-          )}          
+          )}
+
           {/* Category Dropdown */}
           <div className="relative" ref={categoryRef}>
             <button
@@ -142,7 +162,7 @@ export default function Navbar() {
         </div>
 
         {/* Right Navigation */}
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 mt-3 sm:mt-0">
           {/* Cart Icon */}
           <div className="relative cursor-pointer" ref={cartRef}>
             <ShoppingCartIcon
@@ -175,11 +195,11 @@ export default function Navbar() {
           )}
 
           {/* Search */}
-          <div className="flex items-center bg-white text-black rounded-full px-4 py-1">
+          <div className="flex items-center bg-white text-black rounded-full px-3 py-1 w-fit max-w-xs">
             <input
               type="text"
               placeholder="Find Flower..."
-              className="bg-transparent text-sm placeholder-pink-300 text-pink-500 outline-none"
+              className="bg-transparent text-sm placeholder-pink-300 text-pink-500 outline-none w-full"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               onKeyDown={(e) => {
