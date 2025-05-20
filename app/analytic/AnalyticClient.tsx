@@ -37,7 +37,6 @@ type BarChartProps = {
 
 function SimpleBarChart({ data, labels, colors }: BarChartProps) {
   const max = Math.max(...data);
-
   return (
     <div className="grid grid-cols-7 gap-2 mt-4">
       {data.map((value, i) => (
@@ -97,13 +96,14 @@ type Props = {
 };
 
 export default function AnalyticClient({ produkList, transaksiList }: Props) {
+  const [loading, setLoading] = useState(true);
+
   const totalProduk = produkList.length;
   const totalTransaksi = transaksiList.length;
   const totalPendapatan = transaksiList.reduce((sum, t) => sum + t.total_harga, 0);
-  const totalPengguna = 102; // Dummy data, bisa disesuaikan
+  const totalPengguna = 102;
   const avgTransaksi = totalPendapatan / (totalTransaksi || 1);
 
-  // Dummy chart data
   const chartData = [50, 75, 30, 90, 60, 40, 80];
   const chartLabels = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
   const chartColors = [
@@ -126,19 +126,31 @@ export default function AnalyticClient({ produkList, transaksiList }: Props) {
     setFormattedAvgTransaksi(
       avgTransaksi.toLocaleString('id-ID', { style: 'currency', currency: 'IDR' })
     );
+
+    const timer = setTimeout(() => setLoading(false), 1200); // Simulasi delay
+
+    return () => clearTimeout(timer);
   }, [totalPendapatan, avgTransaksi]);
 
-  const formatTanggal = (date: Date) => {
-    return new Date(date).toLocaleDateString('id-ID', {
-      year: 'numeric',
-      month: 'short',
-      day: 'numeric',
-    });
-  };
+  if (loading) {
+    return (
+      <div className="space-y-8 p-6 bg-white rounded-lg shadow animate-pulse">
+        <div className="h-6 bg-gray-200 w-1/3 rounded" />
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div key={i} className="bg-pink-100 p-4 rounded-xl shadow h-28" />
+          ))}
+        </div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="bg-gray-100 h-32 rounded-xl" />
+          <div className="bg-gray-100 h-64 rounded-xl" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 p-6 bg-white rounded-lg shadow">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold text-pink-700">Dashboard Analitik</h1>
@@ -150,7 +162,6 @@ export default function AnalyticClient({ produkList, transaksiList }: Props) {
         </button>
       </div>
 
-      {/* Statistik Utama */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <StatCard
           icon={<Box className="text-pink-600" />}
@@ -179,7 +190,6 @@ export default function AnalyticClient({ produkList, transaksiList }: Props) {
         />
       </div>
 
-      {/* Ringkasan Tambahan */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="bg-white p-6 rounded-xl shadow">
           <h2 className="text-lg font-semibold text-gray-700 mb-2">Rata-rata Nilai Transaksi</h2>
@@ -211,75 +221,6 @@ export default function AnalyticClient({ produkList, transaksiList }: Props) {
           <SimpleBarChart data={chartData} labels={chartLabels} colors={chartColors} />
         </div>
       </div>
-
-      {/* Daftar Produk */}
-      <section>
-        <h2 className="text-xl font-semibold text-pink-700 mb-4">Daftar Produk</h2>
-        <div className="overflow-x-auto rounded-lg border border-gray-300 shadow-md">
-          <table className="w-full border-collapse border border-gray-300">
-            <thead className="bg-pink-200 text-pink-800">
-              <tr>
-                <th className="border border-gray-300 px-4 py-2">ID Produk</th>
-                <th className="border border-gray-300 px-4 py-2">Nama Produk</th>
-                <th className="border border-gray-300 px-4 py-2">Harga</th>
-              </tr>
-            </thead>
-            <tbody>
-              {produkList.map((produk) => (
-                <tr key={produk.id} className="odd:bg-white even:bg-pink-50 hover:bg-pink-100">
-                  <td className="border border-gray-300 px-4 py-2">{produk.id}</td>
-                  <td className="border border-gray-300 px-4 py-2">{produk.name}</td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {produk.price.toLocaleString('id-ID', {
-                      style: 'currency',
-                      currency: 'IDR',
-                    })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      {/* Daftar Transaksi */}
-      <section>
-        <h2 className="text-xl font-semibold text-pink-700 mb-4">Daftar Transaksi</h2>
-        <div className="overflow-x-auto rounded-lg border border-gray-300 shadow-md">
-          <table className="w-full border-collapse border border-gray-300">
-            <thead className="bg-pink-200 text-pink-800">
-              <tr>
-                <th className="border border-gray-300 px-4 py-2">ID Transaksi</th>
-                <th className="border border-gray-300 px-4 py-2">Produk</th>
-                <th className="border border-gray-300 px-4 py-2">Nama Pembeli</th>
-                <th className="border border-gray-300 px-4 py-2">Tanggal</th>
-                <th className="border border-gray-300 px-4 py-2">Total Harga</th>
-              </tr>
-            </thead>
-            <tbody>
-              {transaksiList.map((transaksi) => (
-                <tr
-                  key={transaksi.id_transaksi}
-                  className="odd:bg-white even:bg-pink-50 hover:bg-pink-100"
-                >
-                  <td className="border border-gray-300 px-4 py-2">{transaksi.id_transaksi}</td>
-                  <td className="border border-gray-300 px-4 py-2">{transaksi.produk.name}</td>
-                  <td className="border border-gray-300 px-4 py-2">{transaksi.nama_pembeli}</td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {formatTanggal(transaksi.tanggal_transaksi)}
-                  </td>
-                  <td className="border border-gray-300 px-4 py-2">
-                    {transaksi.total_harga.toLocaleString('id-ID', {
-                      style: 'currency',
-                      currency: 'IDR',
-                    })}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </section>
     </div>
   );
 }
