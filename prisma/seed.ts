@@ -9,7 +9,7 @@ async function main() {
     {
       name: 'Buket Mawar Merah',
       price: 150000,
-      image: 'https://example.com/buket-mawar.jpg',
+      image: '/images/wedding-white-roses.jpg',
       description: 'Buket bunga mawar merah elegan',
       category: 'wedding',
       stock: 10,
@@ -17,7 +17,7 @@ async function main() {
     {
       name: 'Buket Ulang Tahun',
       price: 100000,
-      image: 'https://example.com/buket-ultah.jpg',
+      image: '/images/wedding-pastel.jpg',
       description: 'Buket ceria untuk ulang tahun',
       category: 'birthday',
       stock: 15,
@@ -25,7 +25,7 @@ async function main() {
     {
       name: 'Buket Anniversary Pink',
       price: 120000,
-      image: 'https://example.com/buket-anniv.jpg',
+      image: '/images/special-graduation.jpg',
       description: 'Buket bunga pink romantis',
       category: 'anniversary',
       stock: 8,
@@ -33,7 +33,7 @@ async function main() {
     {
       name: 'Buket Graduation',
       price: 130000,
-      image: 'https://example.com/buket-grad.jpg',
+      image: '/images/special-baby.jpg',
       description: 'Buket bunga kelulusan penuh harapan',
       category: 'special-event',
       stock: 12,
@@ -41,7 +41,7 @@ async function main() {
     {
       name: 'Buket Lily Putih',
       price: 145000,
-      image: 'https://example.com/buket-lily.jpg',
+      image: '/images.placeholder-flower.jpg',
       description: 'Buket lily putih mewah',
       category: 'wedding',
       stock: 9,
@@ -94,7 +94,6 @@ async function main() {
     produkList.push(produk);
   }
 
-  // Buat transaksi
   const transaksiData = [
     {
       produkId: produkList[0].id,
