@@ -55,12 +55,21 @@ export default function OurProductPage() {
     async function fetchProducts() {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:3000/api/products');
+        const response = await fetch('/api/products');
         if (!response.ok) throw new Error('Network response was not ok');
         const data = await response.json();
+
         setProducts(data);
+
+        // Set default quantity 1 for each product
+        const initialQuantities: Record<string, number> = {};
+        data.forEach((product: Product) => {
+          initialQuantities[product.id] = 1;
+        });
+        setBuyingQuantities(initialQuantities);
       } catch (error) {
         console.error('Failed to fetch products:', error);
+        setProducts([]);
       } finally {
         setLoading(false);
       }
@@ -184,7 +193,7 @@ export default function OurProductPage() {
         )}
       </AnimatePresence>
 
-            {/* Title and Add Button */}
+      {/* Title and Add Button */}
       <div className="relative flex items-center bg-pink-200 mb-6 px-6 py-2">
         {loading ? (
           <>
@@ -221,176 +230,198 @@ export default function OurProductPage() {
               <div className="h-6 bg-gray-300 rounded mb-2" />
               <div className="h-5 bg-gray-300 rounded mb-2 w-3/4" />
               {isOwner && <div className="h-4 bg-gray-300 rounded mb-1 w-1/2" />}
-              {isOwner && <div className="h-10 bg-gray-300 rounded mb-2" />}
-              <div className="h-4 bg-gray-300 rounded w-1/3" />
+              {isOwner && <div className="h-8 bg-gray-300 rounded mt-auto" />}
             </div>
           ))
         ) : (
           products.map((product) => (
-            <div
+            <motion.div
               key={product.id}
-              className="bg-white rounded-2xl shadow-lg p-4 relative flex flex-col"
+              layout
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              className="bg-white rounded-2xl shadow-lg p-4 flex flex-col"
             >
-              <div
-                onClick={() => router.push(`/products/${product.id}`)}
-                className="cursor-pointer flex-grow"
-              >
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={300}
-                  height={300}
-                  className="rounded-lg w-full h-60 object-cover"
-                />
-                <h2 className="text-lg font-semibold mt-2">{product.name}</h2>
-                <p className="text-pink-600 font-bold text-lg">${product.price}</p>
-
-                {isOwner && (
+              <div className="relative w-full h-60 rounded-xl overflow-hidden cursor-pointer">
+                {editingProductId === product.id ? (
                   <>
-                    <p className="text-xs text-red-600">ID Produk: {product.id}</p>
-                    <p className="text-sm text-gray-600 mt-1 line-clamp-3">{product.description}</p>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        if (e.target.files && e.target.files[0]) {
+                          const file = e.target.files[0];
+                          const reader = new FileReader();
+                          reader.onload = (ev) => {
+                            setEditImage(ev.target?.result as string);
+                          };
+                          reader.readAsDataURL(file);
+                        }
+                      }}
+                      className="w-full h-60 opacity-0 absolute top-0 left-0 cursor-pointer"
+                    />
+                    <Image
+                      src={editImage || product.image}
+                      alt={product.name}
+                      fill
+                      className="object-cover rounded-xl"
+                    />
                   </>
+                ) : (
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    fill
+                    className="object-cover rounded-xl"
+                    onClick={() => startEditing(product)}
+                    style={{ cursor: isOwner ? 'pointer' : 'default' }}
+                  />
                 )}
-
-                <p className="text-gray-500 text-sm mt-1">
-                  {product.stock > 0 ? (
-                    `Stock: ${product.stock}`
-                  ) : (
-                    <span className="text-red-500 font-semibold">Out of Stock</span>
-                  )}
-                </p>
               </div>
 
-              {!isOwner && product.stock > 0 && (
-                <div className="mt-3 flex flex-col gap-2">
-                  <div className="flex items-center justify-between">
-                    <span className="text-sm text-gray-600">Quantity</span>
-                    <div className="flex items-center gap-2">
-                      <button
-                        onClick={() =>
-                          setBuyingQuantities((prev) => ({
-                            ...prev,
-                            [product.id]: Math.max((prev[product.id] ?? 1) - 1, 1),
-                          }))
-                        }
-                        className="p-1 bg-gray-200 rounded hover:bg-gray-300"
-                      >
-                        <MinusIcon className="h-4 w-4" />
-                      </button>
-                      <span>{buyingQuantities[product.id] ?? 1}</span>
-                      <button
-                        onClick={() =>
-                          setBuyingQuantities((prev) => ({
-                            ...prev,
-                            [product.id]: Math.min(
-                              (prev[product.id] ?? 1) + 1,
-                              product.stock
-                            ),
-                          }))
-                        }
-                        className="p-1 bg-gray-200 rounded hover:bg-gray-300"
-                      >
-                        <PlusIcon className="h-4 w-4" />
-                      </button>
-                    </div>
-                  </div>
-                  <button
-                    onClick={() => handleBuy(product)}
-                    className="bg-pink-500 text-white py-2 rounded hover:bg-pink-600 transition"
-                  >
-                    Buy
-                  </button>
-                </div>
-              )}
-
-              {isOwner && editingProductId === product.id && (
-                <div className="mt-4 flex flex-col gap-2">
-                  <input
-                    type="text"
-                    value={editData.name}
-                    onChange={(e) =>
-                      setEditData((prev) => ({ ...prev, name: e.target.value }))
-                    }
-                    className="border rounded p-2"
-                    placeholder="Name"
-                  />
-                  <input
-                    type="number"
-                    value={editData.price}
-                    onChange={(e) =>
-                      setEditData((prev) => ({ ...prev, price: Number(e.target.value) }))
-                    }
-                    className="border rounded p-2"
-                    placeholder="Price"
-                  />
-                  <textarea
-                    value={editData.description}
-                    onChange={(e) =>
-                      setEditData((prev) => ({ ...prev, description: e.target.value }))
-                    }
-                    className="border rounded p-2"
-                    placeholder="Description"
-                  />
-                  <input
-                    type="text"
-                    value={editData.category}
-                    onChange={(e) =>
-                      setEditData((prev) => ({ ...prev, category: e.target.value }))
-                    }
-                    className="border rounded p-2"
-                    placeholder="Category"
-                  />
-                  <input
-                    type="number"
-                    value={editData.stock}
-                    onChange={(e) =>
-                      setEditData((prev) => ({ ...prev, stock: Number(e.target.value) }))
-                    }
-                    className="border rounded p-2"
-                    placeholder="Stock"
-                  />
-                  <div className="flex gap-2">
+              <div className="mt-4 flex flex-col flex-grow">
+                {editingProductId === product.id ? (
+                  <>
+                    <input
+                      type="text"
+                      className="mb-2 border rounded px-2 py-1"
+                      value={editData.name}
+                      onChange={(e) => setEditData({ ...editData, name: e.target.value })}
+                      placeholder="Product name"
+                    />
+                    <input
+                      type="number"
+                      className="mb-2 border rounded px-2 py-1"
+                      value={editData.price}
+                      onChange={(e) =>
+                        setEditData({ ...editData, price: parseFloat(e.target.value) })
+                      }
+                      placeholder="Price"
+                      min={0}
+                    />
+                    <textarea
+                      className="mb-2 border rounded px-2 py-1 resize-none"
+                      value={editData.description}
+                      onChange={(e) => setEditData({ ...editData, description: e.target.value })}
+                      placeholder="Description"
+                    />
+                    <input
+                      type="text"
+                      className="mb-2 border rounded px-2 py-1"
+                      value={editData.category}
+                      onChange={(e) => setEditData({ ...editData, category: e.target.value })}
+                      placeholder="Category"
+                    />
+                    <input
+                      type="number"
+                      className="mb-2 border rounded px-2 py-1"
+                      value={editData.stock}
+                      onChange={(e) =>
+                        setEditData({ ...editData, stock: parseInt(e.target.value) })
+                      }
+                      placeholder="Stock"
+                      min={0}
+                    />
                     <button
                       onClick={() => saveEdit(product.id)}
-                      className="bg-green-500 text-white px-3 py-1 rounded"
+                      className="mt-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
                     >
                       Save
                     </button>
-                    <button
-                      onClick={() => setEditingProductId(null)}
-                      className="bg-gray-300 px-3 py-1 rounded"
-                    >
-                      Cancel
-                    </button>
-                  </div>
-                </div>
-              )}
+                  </>
+                ) : (
+                  <>
+                    <h3 className="text-xl font-semibold">{product.name}</h3>
+                    <p className="text-pink-700 font-semibold mb-1">Rp{product.price.toLocaleString()}</p>
+                    <p className="text-gray-700 text-sm mb-2 line-clamp-2">{product.description}</p>
+                    <p className="text-gray-500 text-xs mb-2">Category: {product.category}</p>
+                    <p className="text-gray-500 text-xs mb-2">Stock: {product.stock}</p>
 
-              {isOwner && editingProductId !== product.id && (
-                <div className="absolute top-4 right-4 flex gap-2">
-                  <button
-                    onClick={() => startEditing(product)}
-                    className="text-pink-600 hover:text-pink-800"
-                  >
-                    <PencilIcon className="h-5 w-5" />
-                  </button>
-                  <button
-                    onClick={() => handleDelete(product.id)}
-                    className="text-red-600 hover:text-red-800"
-                  >
-                    <TrashIcon className="h-5 w-5" />
-                  </button>
-                </div>
-              )}
-            </div>
+                    <div className="flex items-center gap-2 mb-3">
+                      <button
+                        onClick={() =>
+                          setBuyingQuantities((prev) => {
+                            const current = prev[product.id] || 1;
+                            if (current > 1) {
+                              return { ...prev, [product.id]: current - 1 };
+                            }
+                            return prev;
+                          })
+                        }
+                        className="p-1 bg-pink-100 rounded"
+                      >
+                        <MinusIcon className="h-4 w-4 text-pink-500" />
+                      </button>
+                      <input
+                        type="number"
+                        className="w-12 text-center border rounded"
+                        min={1}
+                        max={product.stock}
+                        value={buyingQuantities[product.id] ?? 1}
+                        onChange={(e) => {
+                          let val = parseInt(e.target.value);
+                          if (isNaN(val) || val < 1) val = 1;
+                          else if (val > product.stock) val = product.stock;
+                          setBuyingQuantities((prev) => ({ ...prev, [product.id]: val }));
+                        }}
+                      />
+                      <button
+                        onClick={() =>
+                          setBuyingQuantities((prev) => {
+                            const current = prev[product.id] || 1;
+                            if (current < product.stock) {
+                              return { ...prev, [product.id]: current + 1 };
+                            }
+                            return prev;
+                          })
+                        }
+                        className="p-1 bg-pink-100 rounded"
+                      >
+                        <PlusIcon className="h-4 w-4 text-pink-500" />
+                      </button>
+                    </div>
+
+                    <button
+                      onClick={() => handleBuy(product)}
+                      className="bg-pink-500 text-white rounded px-4 py-2 mb-2 hover:bg-pink-600 transition"
+                    >
+                      Buy
+                    </button>
+
+                    {isOwner && (
+                      <div className="flex gap-4 mt-auto">
+                        <button
+                          onClick={() => startEditing(product)}
+                          className="flex items-center gap-1 text-blue-500 hover:text-blue-700"
+                        >
+                          <PencilIcon className="h-5 w-5" /> Edit
+                        </button>
+                        <button
+                          onClick={() => handleDelete(product.id)}
+                          className="flex items-center gap-1 text-red-500 hover:text-red-700"
+                        >
+                          <TrashIcon className="h-5 w-5" /> Delete
+                        </button>
+                      </div>
+                    )}
+                  </>
+                )}
+              </div>
+            </motion.div>
           ))
         )}
       </div>
 
       {toast && (
-        <div className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-pink-500 text-white px-6 py-3 rounded shadow-lg">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: 20 }}
+          className="fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-pink-500 text-white rounded px-4 py-2 shadow-lg"
+        >
           {toast}
-        </div>
+        </motion.div>
       )}
     </div>
   );
