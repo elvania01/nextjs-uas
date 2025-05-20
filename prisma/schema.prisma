@@ -20,11 +20,14 @@ model Produk {
   transaksi   Transaksi[]
 }
 
+
+
 model Transaksi {
   id_transaksi      Int      @id @default(autoincrement())
-  produkId          String
-  produk            Produk   @relation(fields: [produkId], references: [id])
   nama_pembeli      String
   tanggal_transaksi DateTime
   total_harga       Int
+  produkId          String
+  produk            Produk   @relation(fields: [produkId], references: [id])
 }
+
