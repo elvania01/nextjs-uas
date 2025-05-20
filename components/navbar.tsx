@@ -109,28 +109,19 @@ export default function Navbar() {
         {/* Left Navigation */}
         <div className="flex items-center space-x-4">
           {/* Dashboard with Dropdown */}
-          <div className="relative group">
-            <Link
-              href="/analytic"
-              className="hover:bg-pink-600 px-2 py-1 rounded-md cursor-pointer inline-block"
-            >
-              Dashboard
-            </Link>
-            <div className="absolute z-10 hidden group-hover:block bg-white shadow-md rounded-md w-40 mt-1">
-              <Link
-                href="/dashboard/product"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Produk
-              </Link>
-              <Link
-                href="/dashboard/transaction"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Transaksi
-              </Link>
-            </div>
-          </div>
+{role === "Owner" && (
+  <div className="relative group">
+    <Link
+      href="/analytic"
+      className="hover:bg-pink-600 px-2 py-1 rounded-md cursor-pointer inline-block"
+    >
+      Dashboard
+    </Link>
+    <div className="absolute z-10 hidden group-hover:block bg-white shadow-md rounded-md w-40 mt-1">
+    </div>
+  </div>
+)}
+
 
           <Link href="/" className="hover:bg-pink-600 px-2 py-1 rounded-md">Home</Link>
           <Link href="/about-us" className="hover:bg-pink-600 px-2 py-1 rounded-md">About Us</Link>
