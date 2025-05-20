@@ -19,7 +19,7 @@ export default function TopNav() {
             <TruckIcon className="h-5 w-5" />
             <span>Tracking Order</span>
           </Link>
-          <Link href="/customer-service/page" className="flex items-center space-x-1 hover:underline">
+          <Link href="/customer-service" className="flex items-center space-x-1 hover:underline">
             <PhoneIcon className="h-5 w-5" />
             <span>Customer Service</span>
           </Link>
