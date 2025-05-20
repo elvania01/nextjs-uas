@@ -14,7 +14,7 @@ export default function Page() {
   const [isPageReady, setIsPageReady] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsPageReady(true), 600); // Simulasi loading halaman
+    const timer = setTimeout(() => setIsPageReady(true), 600); 
     return () => clearTimeout(timer);
   }, []);
 
