@@ -133,21 +133,68 @@ export default function AnalyticClient({ produkList, transaksiList }: Props) {
   }, [totalPendapatan, avgTransaksi]);
 
   if (loading) {
-    return (
-      <div className="space-y-8 p-6 bg-white rounded-lg shadow animate-pulse">
-        <div className="h-6 bg-gray-200 w-1/3 rounded" />
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {[...Array(4)].map((_, i) => (
-            <div key={i} className="bg-pink-100 p-4 rounded-xl shadow h-28" />
-          ))}
+  return (
+    <div className="space-y-8 p-6 bg-white rounded-lg shadow">
+      {/* Header Title */}
+      <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <div className="h-6 bg-gray-200 w-40 rounded animate-pulse" />
+          <div className="h-4 bg-gray-200 w-32 rounded animate-pulse" />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="bg-gray-100 h-32 rounded-xl" />
-          <div className="bg-gray-100 h-64 rounded-xl" />
+        <div className="h-10 w-40 bg-pink-200 rounded-xl animate-pulse" />
+      </div>
+
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        {[...Array(4)].map((_, i) => (
+          <div
+            key={i}
+            className="p-4 bg-pink-100 rounded-xl shadow animate-pulse space-y-4 h-28"
+          >
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white rounded-full" />
+              <div className="space-y-2">
+                <div className="w-24 h-4 bg-gray-300 rounded" />
+                <div className="w-20 h-6 bg-gray-300 rounded" />
+              </div>
+            </div>
+            <div className="w-16 h-3 bg-gray-300 rounded" />
+          </div>
+        ))}
+      </div>
+
+      {/* Detail Panels */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {/* Avg Transaksi */}
+        <div className="bg-white p-6 rounded-xl shadow space-y-4 animate-pulse">
+          <div className="w-48 h-4 bg-gray-300 rounded" />
+          <div className="w-32 h-6 bg-pink-200 rounded" />
+          <div className="w-40 h-3 bg-gray-200 rounded" />
+        </div>
+
+        {/* Chart */}
+        <div className="bg-white p-6 rounded-xl shadow space-y-4 animate-pulse">
+          <div className="w-48 h-4 bg-gray-300 rounded" />
+          <div className="w-32 h-3 bg-gray-200 rounded" />
+          <div className="flex flex-wrap gap-4 mt-2">
+            {[...Array(3)].map((_, i) => (
+              <div key={i} className="w-32 h-4 bg-gray-200 rounded" />
+            ))}
+          </div>
+          <div className="grid grid-cols-7 gap-2 mt-4">
+            {[...Array(7)].map((_, i) => (
+              <div key={i} className="flex flex-col items-center justify-end h-40">
+                <div className="w-6 h-4 mb-1 bg-gray-300 rounded" />
+                <div className="w-6 bg-gray-300 rounded" style={{ height: `${20 + i * 5}px` }} />
+                <div className="w-6 h-3 mt-1 bg-gray-200 rounded" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   return (
     <div className="space-y-8 p-6 bg-white rounded-lg shadow">
