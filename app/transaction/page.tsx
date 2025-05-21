@@ -44,39 +44,48 @@ export default function TransactionPage() {
     fetchTransaksi();
   }, []);
 
-  // Skeleton baris untuk tabel
   const skeletonRows = Array(6).fill(null);
 
   return (
     <div className="max-w-6xl mx-auto mt-10 p-4">
-      <h1 className="text-2xl font-bold mb-6 text-pink-600">Daftar Transaksi</h1>
+      {/* Judul halaman */}
+      {loading ? (
+        <div className="h-8 w-48 bg-gray-300 rounded animate-pulse mb-6" />
+      ) : (
+        <h1 className="text-2xl font-bold mb-6 text-pink-600">Daftar Transaksi</h1>
+      )}
 
       <section>
         <div className="overflow-x-auto rounded-lg border border-gray-300 shadow-md">
           <table className="w-full border-collapse border border-gray-300">
             <thead className="bg-pink-200 text-pink-800">
               <tr>
-                <th className="border border-gray-300 px-4 py-2">ID Transaksi</th>
-                <th className="border border-gray-300 px-4 py-2">Produk</th>
-                <th className="border border-gray-300 px-4 py-2">Nama Pembeli</th>
-                <th className="border border-gray-300 px-4 py-2">Tanggal</th>
-                <th className="border border-gray-300 px-4 py-2">Total Harga</th>
+                {loading
+                  ? Array(5).fill(null).map((_, i) => (
+                      <th key={i} className="px-4 py-2">
+                        <div className="h-4 w-24 bg-gray-300 rounded animate-pulse" />
+                      </th>
+                    ))
+                  : (
+                    <>
+                      <th className="border border-gray-300 px-4 py-2">ID Transaksi</th>
+                      <th className="border border-gray-300 px-4 py-2">Produk</th>
+                      <th className="border border-gray-300 px-4 py-2">Nama Pembeli</th>
+                      <th className="border border-gray-300 px-4 py-2">Tanggal</th>
+                      <th className="border border-gray-300 px-4 py-2">Total Harga</th>
+                    </>
+                  )}
               </tr>
             </thead>
             <tbody>
               {loading
                 ? skeletonRows.map((_, idx) => (
                     <tr key={idx} className="odd:bg-white even:bg-pink-50">
-                      {Array(5)
-                        .fill(null)
-                        .map((__, i) => (
-                          <td
-                            key={i}
-                            className="border border-gray-300 px-4 py-2"
-                          >
-                            <div className="h-4 bg-gray-300 rounded animate-pulse w-full max-w-[80px]" />
-                          </td>
-                        ))}
+                      {Array(5).fill(null).map((__, i) => (
+                        <td key={i} className="border border-gray-300 px-4 py-2">
+                          <div className="h-4 bg-gray-300 rounded animate-pulse w-full max-w-[80px]" />
+                        </td>
+                      ))}
                     </tr>
                   ))
                 : data.map((transaksi) => (
