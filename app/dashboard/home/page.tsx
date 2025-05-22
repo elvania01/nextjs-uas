@@ -1,5 +1,8 @@
 "use client";
 
+import { Card } from "app/ui/dashboard/cards";
+import RevenueChart from "@/app/ui/dashboard/revenue-chart";
+import LatestInvoices from "@/app/ui/dashboard/latest-invoices";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { GiftIcon, ShoppingBagIcon, SparklesIcon } from "@heroicons/react/24/outline";
@@ -11,12 +14,6 @@ import { motion } from "framer-motion";
 export default function Page() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(false);
-  const [isPageReady, setIsPageReady] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setIsPageReady(true), 600); 
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleShopNow = () => {
     setIsLoading(true);
@@ -24,8 +21,6 @@ export default function Page() {
       router.push("/dashboard/our-product");
     }, 700);
   };
-
-  if (!isPageReady) return <SkeletonLoader />;
 
   return (
     <motion.div
@@ -133,19 +128,5 @@ function Spinner() {
         d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
       />
     </svg>
-  );
-}
-
-function SkeletonLoader() {
-  return (
-    <div className="min-h-screen bg-[#fff8f9] flex flex-col items-center justify-center">
-      <div className="animate-pulse space-y-4 w-full max-w-5xl px-4">
-        <div className="h-8 w-40 bg-pink-200 rounded-full" />
-        <div className="h-6 w-full bg-pink-100 rounded-md" />
-        <div className="h-6 w-3/4 bg-pink-100 rounded-md" />
-        <div className="h-64 w-full bg-pink-100 rounded-xl" />
-        <div className="h-12 w-full bg-pink-300 rounded-full" />
-      </div>
-    </div>
   );
 }
