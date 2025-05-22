@@ -1,3 +1,5 @@
+// gak guna ktllll
+
 'use client';
 
 const transaksiDummy = [
