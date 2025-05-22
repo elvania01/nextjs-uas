@@ -12,6 +12,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import useCart from '@/app/lib/CartContext';
+import ProductTitleSkeleton from '@/components/ProductTitleSkeleton';
+import ProductGridSkeleton from '@/components/ProductGridSkeleton';
 
 type Product = {
   id: string;
@@ -114,10 +116,10 @@ export default function OurProductPage() {
       prev.map((product) =>
         product.id === id
           ? {
-              ...product,
-              ...editData,
-              image: editImage ?? product.image,
-            }
+            ...product,
+            ...editData,
+            image: editImage ?? product.image,
+          }
           : product
       )
     );
@@ -196,11 +198,9 @@ export default function OurProductPage() {
       {/* Title and Add Button */}
       <div className="relative flex items-center bg-pink-200 mb-6 px-6 py-2">
         {loading ? (
-          <>
-            <div className="bg-gray-300 rounded-xl w-48 h-12 animate-pulse mx-auto" />
-            {isOwner && <div className="bg-gray-300 rounded-full w-36 h-10 animate-pulse absolute right-6" />}
-          </>
+          <ProductTitleSkeleton isOwner={isOwner} />
         ) : (
+
           <>
             <h1 className="font-pacifico text-4xl font-bold text-center bg-white/80 px-6 py-2 rounded-xl shadow absolute left-1/2 transform -translate-x-1/2">
               OUR PRODUCT
@@ -220,20 +220,9 @@ export default function OurProductPage() {
 
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
         {loading ? (
-          // Loading Skeleton Cards
-          [...Array(8)].map((_, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl shadow-lg p-4 flex flex-col animate-pulse"
-            >
-              <div className="bg-gray-300 rounded-lg w-full h-60 mb-4" />
-              <div className="h-6 bg-gray-300 rounded mb-2" />
-              <div className="h-5 bg-gray-300 rounded mb-2 w-3/4" />
-              {isOwner && <div className="h-4 bg-gray-300 rounded mb-1 w-1/2" />}
-              {isOwner && <div className="h-8 bg-gray-300 rounded mt-auto" />}
-            </div>
-          ))
+          <ProductGridSkeleton isOwner={isOwner} />
         ) : (
+
           products.map((product) => (
             <motion.div
               key={product.id}
