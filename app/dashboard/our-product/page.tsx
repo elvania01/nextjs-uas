@@ -1,13 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import {
-  HeartIcon,
-  PencilIcon,
-  TrashIcon,
-  PlusIcon,
-  MinusIcon,
-} from '@heroicons/react/24/outline';
+import { HeartIcon, PencilIcon, TrashIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
