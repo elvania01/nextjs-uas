@@ -63,7 +63,7 @@ export default function AboutUsPage() {
                 <h4 className="flex items font-semibold">Tim Pengelola:</h4>
                 <div className="flex flex-col gap-1">                
                 <span>Elvania +62 812-3456-7890</span> 
-                <span>Vinsensius +62 812-3456-7890</span>
+                <span>Vinsensius sahhsahahshas+62 812-3456-7890</span>
                 <span>Aditya +62 812-3456-7890</span>
                 </div>
                 </div>
