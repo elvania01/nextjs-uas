@@ -63,7 +63,7 @@ export default function OurProductPage() {
           initialQuantities[product.id] = 1;
         });
         setBuyingQuantities(initialQuantities);
-      } catch (error) {
+      } catch (error) { 
         console.error('Failed to fetch products:', error);
         setProducts([]);
       } finally {
