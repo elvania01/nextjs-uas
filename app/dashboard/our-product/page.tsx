@@ -197,7 +197,7 @@ export default function OurProductPage() {
 
           <>
             <h1 className="font-pacifico text-4xl font-bold text-center bg-white/80 px-6 py-2 rounded-xl shadow absolute left-1/2 transform -translate-x-1/2">
-              OUR PRODUCT
+            NOONA FLORIST            
             </h1>
             {isOwner && (
               <button
