@@ -10,7 +10,7 @@ export default function AboutUsPage() {
           <div className="bg-pink-300 p-6 rounded-xl shadow-lg text-center">
             <img src="/noona-logo.png" alt="Logo" className="w-32 mx-auto mb-4" />
             <p className="font-pacifico italic text-sm mb-6">
-              Beauty in Every Petal, Joy in Every Moment!
+              Beauty in Every Petal, Joy in Every Moment!asdas
             </p>
             <nav className="space-y-4">
               {[].map(
