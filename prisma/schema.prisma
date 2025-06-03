@@ -26,3 +26,12 @@ model Transaksi {
   total_harga       Int
   produk            Produk   @relation(fields: [produkId], references: [id])
 }
+
+model UserCustomer {
+  id        String   @id @default(uuid())
+  name      String
+  email     String   @unique
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
+}
