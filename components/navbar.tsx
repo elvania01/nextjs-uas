@@ -124,10 +124,12 @@ export default function Navbar() {
 
 
           <Link href="/" className="hover:bg-pink-600 px-2 py-1 rounded-md">Home</Link>
-          <Link href="/about-us" className="hover:bg-pink-600 px-2 py-1 rounded-md">About Us</Link>
-          <Link href="/testimoni" className="hover:bg-pink-600 px-2 py-1 rounded-md">Testimoni</Link>
+          {/* <Link href="/about-us" className="hover:bg-pink-600 px-2 py-1 rounded-md">About Us</Link> */}
+          <Link href="/admin/products" className="hover:bg-pink-600 px-2 py-1 rounded-md">Products</Link>
+          <Link href="/admin/user" className="hover:bg-pink-600 px-2 py-1 rounded-md">User</Link>
+          {/* <Link href="/testimoni" className="hover:bg-pink-600 px-2 py-1 rounded-md">Testimoni</Link> */}
           {role === "Owner" && (
-            <Link href="/transaction" className="hover:bg-pink-600 px-2 py-1 rounded-md">
+            <Link href="/admin/transactions" className="hover:bg-pink-600 px-2 py-1 rounded-md">
               Transaction
             </Link>
           )}
