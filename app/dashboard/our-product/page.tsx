@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { HeartIcon, PencilIcon, TrashIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
+import { PencilIcon, TrashIcon, PlusIcon, MinusIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -21,7 +21,6 @@ type Product = {
 
 export default function OurProductPage() {
   const { addToCart } = useCart();
-  const [wishlist, setWishlist] = useState<string[]>([]);
   const [products, setProducts] = useState<Product[]>([]);
   const [loading, setLoading] = useState(true);
   const [isOwner, setIsOwner] = useState(false);
@@ -131,7 +130,7 @@ export default function OurProductPage() {
     }
 
     const quantity = buyingQuantities[product.id] ?? 1;
-    if (isNaN(quantity) || quantity < 1 || quantity > product.stock) {
+    if ((quantity) || quantity < 1 || quantity > product.stock) {
       alert('Invalid quantity');
       return;
     }
