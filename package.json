@@ -16,6 +16,7 @@
     "lucide-react": "^0.487.0",
     "next": "latest",
     "next-auth": "5.0.0-beta.25",
+    "pg": "^8.16.0",
     "postcss": "8.5.1",
     "postgres": "^3.4.5",
     "react": "latest",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.10.7",
+    "@types/pg": "^8.15.4",
     "@types/react": "19.0.7",
     "@types/react-dom": "19.0.3",
     "prisma": "6.8.0",
