@@ -62,11 +62,10 @@ type StatCardProps = {
   icon: JSX.Element;
   label: string;
   value: string;
-  growth: string;
   negative?: boolean;
 };
 
-function StatCard({ icon, label, value, growth, negative }: StatCardProps) {
+function StatCard({ icon, label, value, negative }: StatCardProps) {
   return (
     <div className="bg-pink-100 p-4 rounded-xl shadow hover:shadow-md transition">
       <div className="flex items-center gap-3">
@@ -79,11 +78,11 @@ function StatCard({ icon, label, value, growth, negative }: StatCardProps) {
       <div className="flex items-center text-sm mt-2">
         {negative ? (
           <span className="flex items-center gap-1 text-red-600">
-            <TrendingDown size={14} /> {growth}
+            <TrendingDown size={14} /> {}
           </span>
         ) : (
           <span className="flex items-center gap-1 text-green-600">
-            <TrendingUp size={14} /> {growth}
+            <TrendingUp size={14} /> {}
           </span>
         )}
       </div>
@@ -154,27 +153,27 @@ export default function AnalyticClient({ produkList, transaksiList }: Props) {
           icon={<Box className="text-pink-600" />}
           label="Total Produk"
           value={totalProduk.toString()}
-          growth="+5%"
+
         />
         <StatCard
           icon={<ShoppingCart className="text-pink-600" />}
           label="Total Transaksi"
           value={totalTransaksi.toString()}
-          growth="+12%"
+
         />
         <StatCard
           icon={<DollarSign className="text-pink-600" />}
           label="Total Pendapatan"
           value={formattedTotalPendapatan}
-          growth="+20%"
+  
         />
-        <StatCard
+        {/* <StatCard
           icon={<Users className="text-pink-600" />}
           label="Total Pengguna"
           value={totalPengguna.toString()}
           growth="-1.2%"
           negative
-        />
+        /> */}
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
