@@ -252,7 +252,7 @@ export default function OurProductPage() {
                   </>
                 ) : (
                   <Image
-                    src={product.image}
+                    src={product.image || '/placeholder.jpg'}
                     alt={product.name}
                     fill
                     className="object-cover rounded-xl"
