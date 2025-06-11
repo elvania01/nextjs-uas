@@ -35,14 +35,22 @@ export default function OurProductPage() {
     category: '',
     stock: 0,
   });
+  const [searchQuery, setSearchQuery] = useState('');
   const [buyingQuantities, setBuyingQuantities] = useState<Record<string, number>>({});
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 4;
 
-  const totalPages = Math.ceil(products.length / productsPerPage);
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+
+  const filteredProducts = products.filter((product) =>
+    product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    product.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+  const currentProducts = filteredProducts.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const router = useRouter();
 
@@ -69,7 +77,7 @@ export default function OurProductPage() {
           initialQuantities[product.id] = 1;
         });
         setBuyingQuantities(initialQuantities);
-      } catch (error) { 
+      } catch (error) {
         console.error('Failed to fetch products:', error);
         setProducts([]);
       } finally {
@@ -203,7 +211,7 @@ export default function OurProductPage() {
 
           <>
             <h1 className="font-pacifico text-4xl font-bold text-center bg-white/80 px-6 py-2 rounded-xl shadow absolute left-1/2 transform -translate-x-1/2">
-            NOONA FLORIST            
+              NOONA FLORIST
             </h1>
             {isOwner && (
               <button
@@ -216,6 +224,15 @@ export default function OurProductPage() {
             )}
           </>
         )}
+      </div>
+      <div className="mb-6 flex justify-center">
+        <input
+          type="text"
+          placeholder="Search products..."
+          value={searchQuery}
+          onChange={(e) => setSearchQuery(e.target.value)}
+          className="px-4 py-2 w-full max-w-md rounded border border-pink-300 shadow focus:outline-none focus:ring-2 focus:ring-pink-400"
+        />
       </div>
 
       <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
@@ -268,7 +285,7 @@ export default function OurProductPage() {
                   />
                 )}
               </div>
-                
+
               <div className="mt-4 flex flex-col flex-grow">
                 {editingProductId === product.id ? (
                   <>
@@ -412,7 +429,7 @@ export default function OurProductPage() {
           {toast}
         </motion.div>
       )}
-            {totalPages > 1 && (
+      {totalPages > 1 && (
         <div className="flex justify-center mt-8 gap-2 flex-wrap">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -443,6 +460,6 @@ export default function OurProductPage() {
       )}
 
     </div>
-    
+
   );
 }

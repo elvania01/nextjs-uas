@@ -30,13 +30,6 @@ export default function Navbar() {
   const cartRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
-  const fullCart = cart.map((item: CartItem) => {
-    const product = allProducts.find((p) => p.id.toString() === item.id.toString());
-    return {
-      ...item,
-      name: product?.name || "Unknown",
-    };
-  });
 
   useEffect(() => {
     const loginStatus = localStorage.getItem("isLoggedIn");
@@ -136,7 +129,7 @@ export default function Navbar() {
             )}
           </div>
 
-          {showCartPopup && (
+          {/* {showCartPopup && (
             <div className="absolute right-4 top-14 bg-white shadow-lg rounded-lg p-4 w-80 z-50">
               <h3 className="text-lg font-semibold mb-2 text-pink-600">Cart Items</h3>
               {fullCart.length === 0 ? (
@@ -152,25 +145,7 @@ export default function Navbar() {
                 </ul>
               )}
             </div>
-          )}
-
-          {/* Search */}
-          <div className="flex items-center bg-white text-black rounded-full px-3 py-1 w-fit max-w-xs">
-            <input
-              type="text"
-              placeholder="Find Flower..."
-              className="bg-transparent text-sm placeholder-pink-300 text-pink-500 outline-none w-full"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter") handleSearch();
-              }}
-            />
-            <MagnifyingGlassIcon
-              className="h-5 w-5 ml-2 text-pink-500 cursor-pointer"
-              onClick={handleSearch}
-            />
-          </div>
+          )} */}
 
           {/* Account Dropdown */}
           <div className="relative" ref={accountRef}>

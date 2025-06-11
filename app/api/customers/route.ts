@@ -18,14 +18,23 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const data = await req.json();
+    const { name, email, phone, address } = data;
 
-    // Validasi sederhana
-    if (!data.name || !data.email) {
-      return NextResponse.json({ error: 'Name and email are required' }, { status: 400 });
+    // Validasi semua field wajib diisi
+    if (!name || !email || !phone || !address) {
+      return NextResponse.json(
+        { error: 'Semua field (name, email, phone, address) wajib diisi' },
+        { status: 400 }
+      );
     }
 
     const newCustomer = await prisma.customer.create({
-      data,
+      data: {
+        name,
+        email,
+        phone,
+        address,
+      },
     });
 
     return NextResponse.json(newCustomer, { status: 201 });

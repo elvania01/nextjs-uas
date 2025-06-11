@@ -5,6 +5,29 @@ const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
   const data = await req.json();
+
+  //  VALIDASI harga dan stok
+  if (!data.name || data.price == null || data.stock == null) {
+    return NextResponse.json(
+      { error: 'Nama, harga, dan stok wajib diisi' },
+      { status: 400 }
+    );
+  }
+
+  if (data.price <= 0) {
+    return NextResponse.json(
+      { error: 'Harga harus lebih dari 0' },
+      { status: 400 }
+    );
+  }
+
+  if (data.stock < 0) {
+    return NextResponse.json(
+      { error: 'Stok tidak boleh negatif' },
+      { status: 400 }
+    );
+  }
+
   try {
     const newProduct = await prisma.produk.create({
       data: {
@@ -29,6 +52,6 @@ export async function GET() {
     return NextResponse.json(products);
   } catch (error) {
     console.error('Read failed:', error);
-    return NextResponse.json({ error: 'Read failed' }, { status: 500 });
-  }
+    return NextResponse.json({ error: 'Read failed' }, { status: 500 });
+  }
 }
