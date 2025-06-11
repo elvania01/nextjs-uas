@@ -40,8 +40,22 @@ export default function RegisterPage() {
       });
 
       if (res.ok) {
+        const data = await res.json();
+        
+        // Store user data in localStorage
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", formData.name);
+        localStorage.setItem("justLoggedIn", "true");
+        localStorage.setItem("user", JSON.stringify({
+          id: data.user.id,
+          name: data.user.name,
+          email: data.user.email,
+          username: data.user.username,
+          role: "Customer"
+        }));
+        
         alert("Registration successful!");
-        router.push("/auth/login");
+        router.push("/");
       } else {
         const data = await res.json();
         setError(data.message || "Registration failed!");

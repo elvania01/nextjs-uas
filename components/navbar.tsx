@@ -6,7 +6,6 @@ import { useRef, useEffect, useState } from "react";
 import {
   ShoppingCartIcon,
   UserCircleIcon,
-  ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 import useCart from "@/app/lib/CartContext";
@@ -20,7 +19,6 @@ interface CartItem {
 export default function Navbar() {
   const { cart } = useCart();
   const [showCartPopup, setShowCartPopup] = useState(false);
-  const [showCategory, setShowCategory] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [username, setUsername] = useState("");
   const [role, setRole] = useState("");
@@ -29,7 +27,6 @@ export default function Navbar() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   const accountRef = useRef<HTMLDivElement>(null);
-  const categoryRef = useRef<HTMLDivElement>(null);
   const cartRef = useRef<HTMLDivElement>(null);
   const router = useRouter();
 
@@ -53,8 +50,6 @@ export default function Navbar() {
 
     if (storedUser) {
       const userObj = JSON.parse(storedUser);
-      console.log("Parsed user:", userObj);
-      console.log("USER ROLE:", userObj.role);
       if (userObj?.role) {
         setRole(userObj.role);
       }
@@ -80,22 +75,19 @@ export default function Navbar() {
       if (accountRef.current && !accountRef.current.contains(target)) {
         setShowAccountDropdown(false);
       }
-      if (categoryRef.current && !categoryRef.current.contains(target)) {
-        setShowCategory(false);
-      }
       if (cartRef.current && !cartRef.current.contains(target)) {
         setShowCartPopup(false);
       }
     };
 
-    if (showAccountDropdown || showCategory || showCartPopup) {
+    if (showAccountDropdown || showCartPopup) {
       document.addEventListener("mousedown", handleClickOutside);
     }
 
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [showAccountDropdown, showCategory, showCartPopup]);
+  }, [showAccountDropdown, showCartPopup]);
 
   const handleSearch = () => {
     if (searchTerm.trim() !== "") {
@@ -103,53 +95,30 @@ export default function Navbar() {
     }
   };
 
-    return (
+  return (
     <nav className="bg-pink-500 text-white relative">
       <div className="font-pacifico max-w-7xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between">
         {/* Left Navigation */}
         <div className="flex items-center space-x-4">
-          {/* Dashboard with Dropdown */}
-{role === "Owner" && (
-  <div className="relative group">
-    <Link
-      href="/analytic"
-      className="hover:bg-pink-600 px-2 py-1 rounded-md cursor-pointer inline-block"
-    >
-      Dashboard
-    </Link>
-    <div className="absolute z-10 hidden group-hover:block bg-white shadow-md rounded-md w-40 mt-1">
-    </div>
-  </div>
-)}
-
-    <Link href="/" className="hover:bg-pink-600 px-2 py-1 rounded-md">Home</Link>
-    <Link href="/testimoni" className="hover:bg-pink-600 px-2 py-1 rounded-md">Testimoni</Link>
+          {/* Dashboard */}
           {role === "Owner" && (
-     <>
-    <Link href="/admin/products" className="hover:bg-pink-600 px-2 py-1 rounded-md">Products</Link>
-    <Link href="/admin/customers" className="hover:bg-pink-600 px-2 py-1 rounded-md">Customers</Link>
-    <Link href="/admin/transactions" className="hover:bg-pink-600 px-2 py-1 rounded-md">Transaction</Link>
-  </>
-)}
+            <div className="relative group">
+              <Link
+                href="/analytic"
+                className="hover:bg-pink-600 px-2 py-1 rounded-md cursor-pointer inline-block"
+              >
+                Dashboard
+              </Link>
+            </div>
+          )}
 
-          {/* Category Dropdown */}
-          <div className="relative" ref={categoryRef}>
-            <button
-              onClick={() => setShowCategory(!showCategory)}
-              className="flex items-center hover:bg-pink-600 px-2 py-1 rounded-md"
-            >
-              Category
-              <ChevronDownIcon className="h-4 w-4 ml-1" />
-            </button>
-            {showCategory && (
-              <div className="absolute top-10 bg-white text-pink-600 rounded-md shadow-lg py-2 w-56 z-10">
-                <Link href="/categories/wedding" className="block px-4 py-2 hover:bg-pink-100">Wedding Bouquets</Link>
-                <Link href="/categories/birthday" className="block px-4 py-2 hover:bg-pink-100">Birthday Bouquets</Link>
-                <Link href="/categories/anniversary" className="block px-4 py-2 hover:bg-pink-100">Anniversary Bouquets</Link>
-                <Link href="/categories/special-events" className="block px-4 py-2 hover:bg-pink-100">Special Events Bouquets</Link>
-              </div>
-            )}
-          </div>
+          <Link href="/" className="hover:bg-pink-600 px-2 py-1 rounded-md">Home</Link>
+          <Link href="/testimoni" className="hover:bg-pink-600 px-2 py-1 rounded-md">Testimoni</Link>
+          <Link href="/about-us" className="hover:bg-pink-600 px-2 py-1 rounded-md">About Us</Link>
+          {role === "Owner" && (
+            <>
+            </>
+          )}
         </div>
 
         {/* Right Navigation */}

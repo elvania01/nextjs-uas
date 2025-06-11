@@ -15,23 +15,44 @@ const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
+    
+    // Hardcoded admin login for demo purposes
     if (email === "admin123" && password === "12345") {
       localStorage.setItem("isLoggedIn", "true");
       localStorage.setItem("username", "Owner");
       localStorage.setItem("justLoggedIn", "true");
-      localStorage.setItem("user", JSON.stringify({ email, role: "Owner" }));
+      localStorage.setItem("user", JSON.stringify({ 
+        email, 
+        name: "Owner",
+        username: "Owner",
+        role: "Owner" 
+      }));
       router.push("/");
-    } else if (email === "user123" && password === "12345") {
-      localStorage.setItem("isLoggedIn", "true");
-      localStorage.setItem("username", "Customer");
-      localStorage.setItem("justLoggedIn", "true");
-      localStorage.setItem("user", JSON.stringify({ email, role: "Customer" }));
-      router.push("/");
-    } else {
-      setErrorMessage("Email atau password salah!");
+      return;
+    }
+    
+    try {
+      // For regular users, attempt to verify credentials (this would be a real API call in production)
+      // This is a simplified example - in a real app, you'd have a proper authentication API
+      if (email === "user123" && password === "12345") {
+        localStorage.setItem("isLoggedIn", "true");
+        localStorage.setItem("username", "Customer");
+        localStorage.setItem("justLoggedIn", "true");
+        localStorage.setItem("user", JSON.stringify({ 
+          email, 
+          name: "Customer",
+          username: "Customer",
+          role: "Customer" 
+        }));
+        router.push("/");
+      } else {
+        setErrorMessage("Email atau password salah!");
+      }
+    } catch (error) {
+      console.error("Login error:", error);
+      setErrorMessage("Terjadi kesalahan saat login");
     }
   };
 
@@ -90,7 +111,7 @@ const LoginPage = () => {
               className="absolute right-3 top-3 cursor-pointer text-gray-500"
               onClick={() => setShowPassword(!showPassword)}
             >
-              {showPassword ? "🙈" : "👁️"}
+              {showPassword ? "🙈" : "👁"}
             </span>
           </div>
 

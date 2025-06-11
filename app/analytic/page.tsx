@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import AnalyticClient from '@/app/analytic/AnalyticClient';
+import TopNav2 from "@/components/topnav2"; // Pastikan path-nya sesuai struktur project
 
 const prisma = new PrismaClient();
 
@@ -9,5 +10,13 @@ export default async function AnalyticPage() {
     include: { produk: true },
   });
 
-  return <AnalyticClient produkList={produkList} transaksiList={transaksiList} />;
+  return (
+    <div className="px-6 py-4">
+      {/* Admin Navigation */}
+      <TopNav2 />
+
+      {/* Analytic Section */}
+      <AnalyticClient produkList={produkList} transaksiList={transaksiList} />
+    </div>
+  );
 }

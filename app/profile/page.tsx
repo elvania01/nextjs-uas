@@ -16,17 +16,17 @@ const OwnerProfilePage = () => {
   const [owners, setOwners] = useState<Owner[]>([
     {
       name: "Vinsensius",
-      image: "owner1.jpg",
+      image: "/team/owner1.jpg",
       desc: "A flower enthusiast with a passion for transforming nature’s beauty into meaningful works of art...",
     },
     {
       name: "Elvania",
-      image: "owner2.jpg",
+      image: "/team/owner2.jpg",
       desc: "With experience and meticulous attention to every detail, Elvania is committed to creating floral arrangements...",
     },
     {
       name: "Aditya",
-      image: "owner3.jpg",
+      image: "/team/owner3.jpg",
       desc: "He creates designs that are not only beautiful but also convey emotions and stories in every moment...",
     },
   ]);

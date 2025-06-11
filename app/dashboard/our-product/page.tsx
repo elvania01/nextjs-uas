@@ -36,6 +36,13 @@ export default function OurProductPage() {
     stock: 0,
   });
   const [buyingQuantities, setBuyingQuantities] = useState<Record<string, number>>({});
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 4;
+
+  const totalPages = Math.ceil(products.length / productsPerPage);
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
   const router = useRouter();
 
@@ -216,7 +223,7 @@ export default function OurProductPage() {
           <ProductGridSkeleton isOwner={isOwner} />
         ) : (
 
-          products.map((product) => (
+          currentProducts.map((product) => (
             <motion.div
               key={product.id}
               layout
@@ -261,7 +268,7 @@ export default function OurProductPage() {
                   />
                 )}
               </div>
-
+                
               <div className="mt-4 flex flex-col flex-grow">
                 {editingProductId === product.id ? (
                   <>
@@ -405,6 +412,37 @@ export default function OurProductPage() {
           {toast}
         </motion.div>
       )}
+            {totalPages > 1 && (
+        <div className="flex justify-center mt-8 gap-2 flex-wrap">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className={`px-3 py-1 rounded ${currentPage === 1 ? 'bg-gray-300 text-gray-600' : 'bg-pink-500 text-white hover:bg-pink-600'}`}
+          >
+            Previous
+          </button>
+
+          {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+            <button
+              key={page}
+              onClick={() => setCurrentPage(page)}
+              className={`px-3 py-1 rounded ${currentPage === page ? 'bg-pink-700 text-white' : 'bg-pink-100 text-pink-700 hover:bg-pink-200'}`}
+            >
+              {page}
+            </button>
+          ))}
+
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className={`px-3 py-1 rounded ${currentPage === totalPages ? 'bg-gray-300 text-gray-600' : 'bg-pink-500 text-white hover:bg-pink-600'}`}
+          >
+            Next
+          </button>
+        </div>
+      )}
+
     </div>
+    
   );
 }
