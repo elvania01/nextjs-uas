@@ -4,9 +4,7 @@ import { NextResponse } from 'next/server';
 // Ambil semua data customer
 export async function GET() {
   try {
-    const customers = await prisma.customer.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
+    const customers = await prisma.customer.findMany(); // Hapus orderBy createdAt
     return NextResponse.json(customers);
   } catch (error) {
     console.error('Error fetching customers:', error);
@@ -18,12 +16,11 @@ export async function GET() {
 export async function POST(req: Request) {
   try {
     const data = await req.json();
-    const { name, email, phone, address } = data;
+    const { name, email, username, password } = data;
 
-    // Validasi semua field wajib diisi
-    if (!name || !email || !phone || !address) {
+    if (!name || !email || !username || !password) {
       return NextResponse.json(
-        { error: 'Semua field (name, email, phone, address) wajib diisi' },
+        { error: 'Field name, email, username, dan password wajib diisi' },
         { status: 400 }
       );
     }
@@ -32,8 +29,8 @@ export async function POST(req: Request) {
       data: {
         name,
         email,
-        phone,
-        address,
+        username,
+        password,
       },
     });
 

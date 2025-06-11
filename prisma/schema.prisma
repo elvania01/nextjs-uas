@@ -28,18 +28,10 @@ model Transaksi {
 }
 
 model Customer {
-  id        Int               @id @default(autoincrement())
+  id        String   @id
   name      String
-  email     String            @unique
-  username  String            @unique
-  password  String
-  profile   ProfileCustomer?
-}
-
-model ProfileCustomer {
-  id           Int      @id @default(autoincrement())
-  customerId   Int      @unique
-  bio          String?  // opsional
-  alamat       String?  // opsional
-  customer     Customer @relation(fields: [customerId], references: [id])
+  email     String   @unique
+  phone     String?
+  address   String?
+  createdAt DateTime @default(now())
 }

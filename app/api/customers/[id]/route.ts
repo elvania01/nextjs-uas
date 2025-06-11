@@ -5,17 +5,11 @@ interface Params {
   id: string;
 }
 
-// Ambil data customer berdasarkan ID
+// GET customer by ID
 export async function GET(req: Request, { params }: { params: Params }) {
-  const customerId = Number(params.id);
-
-  if (isNaN(customerId)) {
-    return NextResponse.json({ error: 'Invalid customer ID' }, { status: 400 });
-  }
-
   try {
     const customer = await prisma.customer.findUnique({
-      where: { id: customerId },
+      where: { id: Number(params.id) }, // konversi string → number
     });
 
     if (!customer) {
@@ -29,18 +23,12 @@ export async function GET(req: Request, { params }: { params: Params }) {
   }
 }
 
-// Update data customer
+// UPDATE customer
 export async function PUT(req: Request, { params }: { params: Params }) {
-  const customerId = Number(params.id);
-
-  if (isNaN(customerId)) {
-    return NextResponse.json({ error: 'Invalid customer ID' }, { status: 400 });
-  }
-
   try {
     const data = await req.json();
     const updated = await prisma.customer.update({
-      where: { id: customerId },
+      where: { id: Number(params.id) }, // konversi string → number
       data,
     });
     return NextResponse.json(updated);
@@ -50,17 +38,11 @@ export async function PUT(req: Request, { params }: { params: Params }) {
   }
 }
 
-// Hapus customer
+// DELETE customer
 export async function DELETE(req: Request, { params }: { params: Params }) {
-  const customerId = Number(params.id);
-
-  if (isNaN(customerId)) {
-    return NextResponse.json({ error: 'Invalid customer ID' }, { status: 400 });
-  }
-
   try {
     await prisma.customer.delete({
-      where: { id: customerId },
+      where: { id: Number(params.id) }, // konversi string → number
     });
     return NextResponse.json({ message: 'Customer deleted' });
   } catch (error) {
