@@ -8,6 +8,9 @@
 ## Deskripsi Singkat Proyek
 Noona Florist adalah toko bunga online yang membantu kamu menemukan buket bunga untuk berbagai momen istimewa seperti pernikahan dan ulang tahun. Kamu bisa menjelajahi katalog, menambahkan bunga ke keranjang, dan checkout dengan mudah.
 
+login admin : admin123, pass : 12345
+login user : user123, pass : 12345
+
 ## Link Repository GitHub
 https://github.com/elvania01/nextjs-uas
 
